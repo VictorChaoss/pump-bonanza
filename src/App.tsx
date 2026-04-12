@@ -1,10 +1,42 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
+import { Connection, PublicKey } from '@solana/web3.js';
 import './App.css';
 
+// ─── Token Gating Configuration ─────────────────────────────────────────────
+const REQUIRED_TOKEN_MINT = 'MINT_ADDRESS_HERE'; // Replace when coin is live!
+const REQUIRED_TOKEN_BALANCE = 1;
+const JACKPOT_ALREADY_CLAIMED = false; // Dev can flip this to true when someone hits it!
+// ────────────────────────────────────────────────────────────────────────────
+
 // ─── Symbols ────────────────────────────────────────────────────────────────
-const SYMBOLS = ['🍭', '🍉', '🍇', '🍌', '🍎', '🍬', '🍒', '🍋', '🍊', '🫐'];
+import alonIcon from './assets/symbols/Alon.png';
+import pumpFunIcon from './assets/symbols/PumpFun.png';
+import solanaIcon from './assets/symbols/Solana.png';
+import alonIrlIcon from './assets/symbols/AlonIRL.png';
+import chillHouseIcon from './assets/symbols/ChillHouse.png';
+import michiIcon from './assets/symbols/Michi.png';
+import icon67 from './assets/symbols/67.png';
+import pnutIcon from './assets/symbols/PNUT.png';
+import fwogIcon from './assets/symbols/FWOG.png';
+import tungtungIcon from './assets/symbols/TUNGTUNG.png';
+import trollIcon from './assets/symbols/Troll.png';
+import mainLogo from './assets/LOGO.png';
+
+const SYMBOLS = [
+  alonIcon, 
+  pumpFunIcon, 
+  solanaIcon, 
+  alonIrlIcon, 
+  chillHouseIcon, 
+  michiIcon,
+  icon67,
+  pnutIcon,
+  fwogIcon,
+  tungtungIcon,
+  trollIcon
+];
 const COLS = 6;
 const ROWS = 5;
 
@@ -49,20 +81,21 @@ function BlurTicker({ active }: { active: boolean }) {
 
   if (!active) return null;
   return (
-    <span className="symbol spinning-blur" aria-hidden>
-      {SYMBOLS[idx]}
-    </span>
+    <img src={SYMBOLS[idx]} className="symbol spinning-blur" alt="spinning" aria-hidden />
   );
 }
 
 // ─── App ─────────────────────────────────────────────────────────────────────
 export default function App() {
-  const { connected } = useWallet();
+  const { connected, publicKey } = useWallet();
+  const [hasEntered, setHasEntered] = useState(false);
   const [grid, setGrid] = useState<Cell[][]>(makeGrid);
   const [colSpinning, setColSpinning] = useState<boolean[]>(Array(COLS).fill(false));
   const [isSpinning, setIsSpinning] = useState(false);
+  const [isVerifying, setIsVerifying] = useState(false);
   const [showWinFlash, setShowWinFlash] = useState(false);
-  const [credits, setCredits] = useState(99997.0);
+  const [jackpotWinner, setJackpotWinner] = useState<string | null>(null);
+  const [showJackpotModal, setShowJackpotModal] = useState(false);
   const [bet] = useState(1.0);
   const spinInProgress = useRef(false);
   const timeouts = useRef<ReturnType<typeof setTimeout>[]>([]);
@@ -72,20 +105,70 @@ export default function App() {
     timeouts.current = [];
   };
 
-  const spin = useCallback(() => {
-    if (spinInProgress.current) return;
-    if (!connected) {
+  const spin = useCallback(async () => {
+    if (spinInProgress.current || isVerifying) return;
+    if (!connected || !publicKey) {
       alert('🔒 Please connect your Solana wallet first!');
       return;
     }
 
+    // --- TOKEN GATING VERIFICATION ---
+    if (REQUIRED_TOKEN_MINT !== 'MINT_ADDRESS_HERE') {
+      try {
+        setIsVerifying(true);
+        // Using mainnet-beta, if you need devnet change to 'devnet' endpoint.
+        const connection = new Connection('https://api.mainnet-beta.solana.com');
+        const mintPubKey = new PublicKey(REQUIRED_TOKEN_MINT);
+        
+        const response = await connection.getParsedTokenAccountsByOwner(publicKey, {
+          mint: mintPubKey
+        });
+        
+        let foundBalance = 0;
+        if (response.value.length > 0) {
+          const uiAmount = response.value[0].account.data.parsed.info.tokenAmount.uiAmount;
+          foundBalance = uiAmount || 0;
+        }
+
+        if (foundBalance < REQUIRED_TOKEN_BALANCE) {
+          alert(`🚫 Access Denied!\nYou need to hold at least ${REQUIRED_TOKEN_BALANCE} tokens to play!`);
+          setIsVerifying(false);
+          return; // STOP EXECUTION
+        }
+      } catch (err) {
+        console.error("Token verification failed:", err);
+        alert("⚠️ Failed to verify token holding balance securely.");
+        setIsVerifying(false);
+        return; // Safe failure, do not allow play
+      } finally {
+        setIsVerifying(false); // Validated successfully
+      }
+    }
+    // ---------------------------------
+
     spinInProgress.current = true;
     setIsSpinning(true);
-    setCredits(c => parseFloat((c - bet).toFixed(2)));
     clearAllTimeouts();
 
     // 1) Start ALL columns spinning
-    const newGrid = makeGrid();
+    // 🎲 Math: 1-in-10-million jackpot chance
+    // Guarded by local storage and a global toggle to prevent double hits
+    const localAlreadyClaimed = localStorage.getItem('pump_bonanza_jackpot_claimed') === 'true';
+    const isJackpot = !JACKPOT_ALREADY_CLAIMED && !localAlreadyClaimed && (Math.random() < 0.0000001);
+    let newGrid: Cell[][];
+    
+    if (isJackpot) {
+      newGrid = Array.from({ length: ROWS }, (_, r) =>
+        Array.from({ length: COLS }, (_, c) => ({
+          symbol: SYMBOLS[0], // Override full grid to first top tier symbol
+          state: 'idle' as CellState,
+          idleDelay: (r * COLS + c) * 0.18,
+        }))
+      );
+    } else {
+      newGrid = makeGrid();
+    }
+    
     setColSpinning(Array(COLS).fill(true));
 
     // 2) Stop each column one by one, applying landing state then idle
@@ -125,22 +208,26 @@ export default function App() {
 
           // Last column — spin over
           if (col === COLS - 1) {
-            const WIN = Math.random() < 0.000001;
             spinInProgress.current = false;
             setIsSpinning(false);
 
-            if (WIN) {
+            if (isJackpot) {
               setShowWinFlash(true);
               setTimeout(() => setShowWinFlash(false), 1200);
               // Mark everything as winning briefly
               setGrid(prev =>
                 prev.map(row => row.map(cell => ({ ...cell, state: 'winning' as CellState })))
               );
+              
+              // Stamp the winner securely via public key and lock local storage
+              setJackpotWinner(publicKey ? publicKey.toBase58() : 'Anonymous Demo Wallet');
+              localStorage.setItem('pump_bonanza_jackpot_claimed', 'true');
+              
               setTimeout(() => {
                 setGrid(prev =>
                   prev.map(row => row.map(cell => ({ ...cell, state: 'idle' as CellState })))
                 );
-                alert('🎉🎉 JACKPOT! You are the 1-in-a-million winner! 🎉🎉');
+                setShowJackpotModal(true); // Fire wallet modal
               }, 2100);
             }
           }
@@ -160,6 +247,38 @@ export default function App() {
     return () => window.removeEventListener('keydown', handler);
   }, [spin]);
 
+  if (!hasEntered) {
+    return (
+      <div className="landing-page-container">
+        <div className="landing-content">
+          <img src={mainLogo} className="landing-hero-logo" alt="Token Logo" />
+          
+          <div className="landing-ca-box" onClick={() => {
+            navigator.clipboard.writeText('TBD_PUMP_FUN_ADDRESS');
+            alert('CA Copied to clipboard!');
+          }}>
+            <span className="ca-label">CONTRACT ADDRESS:</span>
+            <span className="ca-value">TBD (PUMP.FUN)</span>
+          </div>
+
+          <div className="landing-instructions">
+            <h2>🎰 HOW TO PLAY & WIN 🎰</h2>
+            <ul>
+               <li><strong>1. Hold $TOKEN:</strong> You must hold the coin to spin.</li>
+               <li><strong>2. Connect Wallet:</strong> Verify your holdings on-chain.</li>
+               <li><strong>3. Spin the Reels:</strong> Hit the 1 in 100,000 chance to win 10 SOL + Dev Fees!</li>
+               <li><strong>4. Claim Prize:</strong> The Jackpot statically verifies your winning wallet instantly!</li>
+            </ul>
+          </div>
+
+          <button className="landing-enter-btn" onClick={() => setHasEntered(true)}>
+            ENTER CASINO
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="sb-root">
       {showWinFlash && <div className="win-flash" />}
@@ -172,36 +291,12 @@ export default function App() {
         <div className="cloud c4" />
       </div>
 
-      {/* Brand Bar */}
-      <div className="brand-bar">
-        <span className="brand-dev">Solana Edition</span>
-        <span className="brand-logo">Pump Bonanza 1000</span>
-        <WalletMultiButton />
-      </div>
-
       {/* Main */}
       <div className="sb-main">
-
         {/* LEFT PANEL */}
         <div className="left-panel">
-          <div className="buy-btn-group">
-            <button className="buy-btn buy-btn-free">
-              <div className="buy-label">Buy Free Spins</div>
-              <div className="buy-price">$100.00</div>
-            </button>
-            <button className="buy-btn buy-btn-super">
-              <div className="buy-label">Buy Super Free Spins</div>
-              <div className="buy-price">$500.00</div>
-            </button>
-          </div>
-          <div className="bet-panel">
-            <div className="bet-label">Bet</div>
-            <div className="bet-amount">${bet.toFixed(2)}</div>
-            <div className="double-chance-row">
-              <div className="double-chance-label">DOUBLE CHANCE<br />TO WIN FEATURE</div>
-              <button className="toggle-off">➜ OFF</button>
-            </div>
-          </div>
+          <img src={mainLogo} className="brand-logo" alt="Main Logo" />
+          <div className="wallet-wrap"><WalletMultiButton /></div>
         </div>
 
         {/* GAME BOARD */}
@@ -219,8 +314,10 @@ export default function App() {
                       {isColSpinning ? (
                         <BlurTicker active={true} />
                       ) : (
-                        <span
+                        <img
+                          src={cell.symbol}
                           className={`symbol ${cell.state}`}
+                          alt="slot symbol"
                           style={{
                             animationDuration:
                               cell.state === 'idle'
@@ -231,9 +328,7 @@ export default function App() {
                             animationDelay:
                               cell.state === 'idle' ? `${cell.idleDelay}s` : '0s',
                           }}
-                        >
-                          {cell.symbol}
-                        </span>
+                        />
                       )}
                     </div>
                   </div>
@@ -242,59 +337,67 @@ export default function App() {
             )}
           </div>
         </div>
-
-        {/* RIGHT PANEL */}
-        <div className="right-panel">
-          <div className="jackpot-panel">
-            <div className="jackpot-title">🏆 Jackpot Pool</div>
-            <div className="jackpot-amount">10+ SOL</div>
-            <div className="jackpot-sub">Base 10 SOL + Dev Fees</div>
-          </div>
-          <div className="odds-panel">
-            <div className="odds-title">⚡ Win Chance</div>
-            <div className="odds-value">1 in 1,000,000</div>
-          </div>
-        </div>
       </div>
 
       {/* BOTTOM BAR */}
       <div className="bottom-bar">
-        <button className="icon-btn" title="Settings">⚙️</button>
-        <button className="icon-btn" title="Info">ℹ️</button>
-
-        <div className="credit-block">
-          <span className="info-label">Credit</span>
-          <span className="info-value">
-            ${credits.toLocaleString('en-US', { minimumFractionDigits: 2 })}
-          </span>
+        <div className="bb-left">
+          <button className="bottom-home-btn" onClick={() => setHasEntered(false)}>
+            « BACK TO LANDING PAGE
+          </button>
         </div>
 
-        <div className="bet-block">
-          <span className="info-label">Bet</span>
-          <span className="info-value">${bet.toFixed(2)}</span>
+        <div className="bb-center">
+          <span className="turbo-label">HOLD SPACE FOR TURBO SPIN</span>
         </div>
 
-        <div className="bottom-controls">
+        <div className="bb-right">
           <button className="adj-btn" title="Decrease bet">−</button>
-          <div className="spin-ring">
+          <div className="spin-container">
             <button
               className="spin-button"
               onClick={spin}
-              disabled={isSpinning}
+              disabled={isSpinning || isVerifying}
               aria-label="Spin"
             >
-              <span className={`spin-label${isSpinning ? ' spinning' : ''}`}>
-                {isSpinning ? '⟳' : '▶'}
+              <span className={`spin-icon${isSpinning || isVerifying ? ' spinning' : ''}`}>
+                {isVerifying ? '⏳' : '↻'}
               </span>
             </button>
+            <button className="autoplay-btn">AUTOPLAY</button>
           </div>
           <button className="adj-btn" title="Increase bet">+</button>
         </div>
-
-        <span className="turbo-label">HOLD SPACE<br />FOR TURBO SPIN</span>
       </div>
 
       <div className="candy-ground" />
+
+      {/* 🎰 Jackpot Modal 🎰 */}
+      {showJackpotModal && jackpotWinner && (
+        <div className="jackpot-modal-overlay">
+          <div className="jackpot-modal-content">
+            <h1 className="jw-title">🎉 JACKPOT WINNER 🎉</h1>
+            <p className="jw-subtitle">A staggering 1-in-10,000,000 hit!</p>
+            <div className="jw-address">
+              Wallet Assessed & Verified:<br/>
+              <span className="address-highlight">{jackpotWinner}</span>
+            </div>
+            <div className="jw-action-row">
+              <a 
+                href={`https://twitter.com/intent/tweet?text=I%20just%20hit%20the%20Jackpot%20on%20Pump%20Bonanza!%20%F0%9F%8E%B0%F0%9F%9A%80%0A%0AMy%20wallet:%20${jackpotWinner}%0A%0A%5BAttach%20Screenshot%20of%20this%20Window%20Here%5D%0A@YourTwitterHandle`} 
+                target="_blank" 
+                rel="noreferrer" 
+                className="jw-x-btn"
+              >
+                UPLOAD SCREENSHOT TO 𝕏
+              </a>
+              <button className="jw-close-btn" onClick={() => setShowJackpotModal(false)}>
+                CLOSE
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
