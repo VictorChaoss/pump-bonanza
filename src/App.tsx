@@ -270,7 +270,7 @@ export default function App() {
           <div className="landing-instructions">
             <h2>🎰 HOW TO PLAY & WIN 🎰</h2>
             <ul>
-               <li><strong>1. Hold $TOKEN:</strong> You must hold the coin to spin.</li>
+               <li><strong>1. Hold $Pump1000:</strong> You must hold the coin to spin.</li>
                <li><strong>2. Connect Wallet:</strong> Verify your holdings on-chain.</li>
                <li><strong>3. Spin the Reels:</strong> Hit the 1 in 100,000 chance to win 10 SOL + Dev Fees!</li>
                <li><strong>4. Claim Prize:</strong> The Jackpot statically verifies your winning wallet instantly!</li>
