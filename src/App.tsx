@@ -358,7 +358,6 @@ export default function App() {
         </div>
 
         <div className="bb-right">
-          <button className="adj-btn" title="Decrease bet">−</button>
           <div className="spin-container">
             <button
               className="spin-button"
@@ -370,9 +369,7 @@ export default function App() {
                 {isVerifying ? '⏳' : '↻'}
               </span>
             </button>
-            <button className="autoplay-btn">AUTOPLAY</button>
           </div>
-          <button className="adj-btn" title="Increase bet">+</button>
         </div>
       </div>
 
