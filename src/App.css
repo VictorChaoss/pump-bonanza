@@ -816,6 +816,13 @@
 
 /* ---- MOBILE OPTIMIZATION ---- */
 @media (max-width: 768px) {
+  .sb-root {
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: auto;
+    min-height: 100vh;
+  }
+
   /* Slot Board Scaling */
   .slot-grid {
     gap: 4px;
@@ -831,21 +838,27 @@
   }
   .board-wrapper {
     margin-top: 10px;
-    margin-bottom: 120px; /* Space for stacked bottom bar */
+    margin-bottom: 20px;
   }
 
   /* Core Layout Adjustments */
   .sb-main {
     flex-direction: column;
     align-items: center;
-    gap: 10px;
+    gap: 5px;
+    padding-top: 20px;
+    margin-bottom: 60px;
   }
   .left-panel {
+    position: relative;
+    top: auto;
+    left: auto;
+    transform: none;
     flex-direction: row;
     width: 100%;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 15px;
+    padding: 0 15px 10px 15px;
     background: transparent;
     box-shadow: none;
     border: none;
