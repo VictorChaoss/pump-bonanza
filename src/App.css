@@ -1,0 +1,461 @@
+/* ======== ROOT WRAPPER ======== */
+.sb-root {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(180deg,
+    #87C8F5 0%, #C3E8FF 18%,
+    #F7D9F7 38%, #F8B4E0 56%,
+    #E87ABE 72%, #C05499 100%);
+}
+
+/* WIN OVERLAY FLASH */
+.win-flash {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle, rgba(255,215,0,0.6) 0%, rgba(255,100,50,0.3) 60%, transparent 100%);
+  pointer-events: none;
+  z-index: 999;
+  animation: winFlash 1s ease-in-out;
+}
+
+/* ---- CLOUDS ---- */
+.clouds {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 40%;
+  pointer-events: none;
+  z-index: 0;
+}
+.cloud {
+  position: absolute;
+  background: rgba(255,255,255,0.88);
+  border-radius: 60px;
+  animation: floatCloud ease-in-out infinite;
+}
+.cloud::before, .cloud::after {
+  content: '';
+  position: absolute;
+  background: rgba(255,255,255,0.88);
+  border-radius: 50%;
+}
+.c1 { width: 180px; height: 60px; top: 9%; left: 4%; animation-duration: 8s; }
+.c1::before { width: 90px; height: 90px; top: -45px; left: 22px; }
+.c1::after  { width: 65px; height: 65px; top: -32px; left: 85px; }
+.c2 { width: 130px; height: 48px; top: 16%; left: 52%; animation-duration: 10s; animation-delay: -3s; }
+.c2::before { width: 65px; height: 65px; top: -32px; left: 10px; }
+.c2::after  { width: 50px; height: 50px; top: -22px; left: 58px; }
+.c3 { width: 110px; height: 40px; top: 7%; right: 7%; animation-duration: 6.5s; animation-delay: -1.5s; }
+.c3::before { width: 60px; height: 60px; top: -32px; left: 14px; }
+.c3::after  { width: 45px; height: 45px; top: -20px; left: 55px; }
+.c4 { width: 95px; height: 36px; top: 20%; left: 28%; animation-duration: 9s; animation-delay: -5s; }
+.c4::before { width: 52px; height: 52px; top: -28px; left: 10px; }
+
+/* ---- CANDY GROUND ---- */
+.candy-ground {
+  position: absolute;
+  bottom: 90px; left: 0; right: 0;
+  height: 20px;
+  pointer-events: none;
+  z-index: 2;
+  background: repeating-linear-gradient(
+    90deg,
+    #FF6B9D 0px, #FF6B9D 40px,
+    #FFB347 40px, #FFB347 80px,
+    #A855F7 80px, #A855F7 120px,
+    #FFB347 120px, #FFB347 160px
+  );
+  border-top: 4px solid rgba(255,255,255,0.6);
+  border-bottom: 3px solid rgba(0,0,0,0.15);
+}
+
+/* ---- BRAND BAR ---- */
+.brand-bar {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 20px;
+  background: rgba(15, 3, 40, 0.65);
+  backdrop-filter: blur(8px);
+  border-bottom: 2px solid rgba(200, 100, 255, 0.35);
+  flex-shrink: 0;
+  height: 52px;
+}
+.brand-logo {
+  font-family: 'Fredoka One', cursive;
+  font-size: 2.5rem;
+  letter-spacing: 2px;
+  background: linear-gradient(90deg, #FFD700 0%, #FF69B4 25%, #FF4500 50%, #FFD700 75%, #FF69B4 100%);
+  background-size: 300% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 4s linear infinite;
+}
+.brand-dev {
+  font-size: 0.7rem;
+  color: rgba(255,255,255,0.5);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  min-width: 120px;
+}
+
+/* ---- MAIN AREA ---- */
+.sb-main {
+  position: relative;
+  z-index: 5;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 16px;
+  min-height: 0;
+}
+
+/* ---- LEFT PANEL ---- */
+.left-panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 14px;
+  width: 190px;
+  flex-shrink: 0;
+}
+.buy-btn {
+  width: 100%;
+  padding: 14px 10px;
+  border: none;
+  border-radius: 16px;
+  cursor: pointer;
+  font-family: 'Fredoka One', cursive;
+  color: #fff;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.45);
+  position: relative;
+  overflow: hidden;
+  transition: filter 0.15s, transform 0.1s;
+  line-height: 1.3;
+  text-align: center;
+}
+.buy-btn:active { transform: translateY(4px); }
+.buy-btn:hover { filter: brightness(1.12); }
+.buy-btn::after {
+  content: '';
+  position: absolute;
+  top: 5px; left: 12px; right: 12px; height: 28px;
+  background: rgba(255,255,255,0.3);
+  border-radius: 20px;
+}
+.buy-btn-free {
+  background: linear-gradient(180deg, #FB923C 0%, #DC2626 100%);
+  border: 3px solid #FCD34D;
+  box-shadow: 0 7px 0 #991B1B, 0 10px 16px rgba(0,0,0,0.35);
+}
+.buy-btn-super {
+  background: linear-gradient(180deg, #A855F7 0%, #7C3AED 100%);
+  border: 3px solid #F0ABFC;
+  box-shadow: 0 7px 0 #5B21B6, 0 10px 16px rgba(0,0,0,0.35);
+}
+.buy-label { font-size: 0.78rem; opacity: 0.9; letter-spacing: 0.5px; text-transform: uppercase; }
+.buy-price { font-size: 1.5rem; margin-top: 2px; }
+
+.buy-btn-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.bet-panel {
+  background: linear-gradient(180deg, #1B5E2E 0%, #0f3518 100%);
+  border: 3px solid #4ADE80;
+  border-radius: 16px;
+  padding: 14px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  box-shadow: 0 7px 0 #0a1f0d, 0 10px 16px rgba(0,0,0,0.4);
+}
+.bet-label   { color: #86EFAC; font-size: 0.8rem; font-family: 'Fredoka One', cursive; text-transform: uppercase; letter-spacing: 1px; }
+.bet-amount  { color: #FBBF24; font-size: 2.2rem; font-family: 'Fredoka One', cursive; text-shadow: 2px 2px 0 rgba(0,0,0,0.4); }
+.double-chance-row { display: flex; justify-content: space-between; align-items: center; }
+.double-chance-label { color: #86EFAC; font-size: 0.68rem; line-height: 1.3; }
+.toggle-off {
+  background: linear-gradient(90deg, #16A34A, #166534);
+  border: 2px solid #22C55E;
+  color: white;
+  font-family: 'Fredoka One', cursive;
+  font-size: 0.8rem;
+  border-radius: 8px;
+  padding: 5px 10px;
+  cursor: pointer;
+  display: flex; align-items: center; gap: 4px;
+}
+
+/* ---- GAME BOARD ---- */
+.board-wrapper {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.slot-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+  gap: 8px;
+  background:
+    linear-gradient(135deg,
+      rgba(255,180,240,0.4) 0%,
+      rgba(180,230,255,0.4) 50%,
+      rgba(255,230,160,0.4) 100%);
+  backdrop-filter: blur(6px);
+  padding: 14px;
+  border-radius: 26px;
+  border: 4px solid rgba(255,255,255,0.75);
+  box-shadow:
+    0 0 0 2px rgba(255,140,220,0.4),
+    inset 0 0 60px rgba(255,220,255,0.2),
+    0 24px 60px rgba(0,0,0,0.45);
+  width: 100%;
+  max-width: min(740px, 100%);
+  aspect-ratio: 6 / 5;
+}
+
+/* Each column clips its symbols so spin is contained vertically */
+.slot-col {
+  display: contents; /* flat into grid, per-cell clipping below */
+}
+
+.slot-cell {
+  background: rgba(255,255,255,0.52);
+  border-radius: 14px;
+  border: 2px solid rgba(255,255,255,0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+  box-shadow:
+    inset 0 -4px 8px rgba(0,0,0,0.08),
+    inset 0 2px 8px rgba(255,255,255,0.5),
+    0 3px 8px rgba(0,0,0,0.12);
+}
+
+/* Spinning streaks overlay during spin */
+.slot-cell.spinning::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg,
+    rgba(255,255,255,0) 0%,
+    rgba(255,255,255,0.35) 45%,
+    rgba(255,255,255,0) 100%);
+  z-index: 2;
+  animation: reelSpin 0.12s linear infinite;
+}
+
+.symbol-wrap {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+}
+
+.symbol {
+  font-size: clamp(1.8rem, 3.4vw, 3.2rem);
+  user-select: none;
+  display: block;
+  line-height: 1;
+  filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
+  will-change: transform, filter;
+}
+
+/* Blur when this specific cell is actively spinning */
+.symbol.spinning-blur {
+  filter: blur(5px) drop-shadow(0 4px 6px rgba(0,0,0,0.25));
+  transform: scaleY(1.2);
+  opacity: 0.7;
+}
+
+/* Landing animation when column stops */
+.symbol.landing {
+  animation: landBounce 0.45s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* Gentle idle float */
+.symbol.idle {
+  animation: idleBob ease-in-out infinite;
+}
+
+/* Win highlight */
+.symbol.winning {
+  animation: winPulse 0.7s ease-in-out 3;
+}
+
+/* ---- RIGHT PANEL ---- */
+.right-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 190px;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+}
+
+.jackpot-panel {
+  width: 100%;
+  background: linear-gradient(180deg, #7B1FA2 0%, #4A148C 100%);
+  border: 3px solid #CE93D8;
+  border-radius: 18px;
+  padding: 16px 12px;
+  text-align: center;
+  box-shadow: 0 7px 0 #2E0050, 0 10px 24px rgba(0,0,0,0.45);
+}
+.jackpot-title  { font-family: 'Fredoka One', cursive; color: #E1BEE7; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; }
+.jackpot-amount { font-family: 'Fredoka One', cursive; font-size: 2.4rem; color: #FBBF24; text-shadow: 2px 2px 0 #78350F; animation: jackpotPulse 2.2s ease-in-out infinite; }
+.jackpot-sub    { font-size: 0.72rem; color: #CE93D8; margin-top: 4px; }
+
+.odds-panel {
+  width: 100%;
+  background: linear-gradient(180deg, #1565C0 0%, #0D47A1 100%);
+  border: 3px solid #64B5F6;
+  border-radius: 16px;
+  padding: 14px 12px;
+  text-align: center;
+  box-shadow: 0 7px 0 #0a2a6e, 0 10px 20px rgba(0,0,0,0.4);
+}
+.odds-title { font-family: 'Fredoka One', cursive; color: #90CAF9; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 1px; }
+.odds-value { font-family: 'Fredoka One', cursive; font-size: 1.15rem; color: #FDE68A; margin-top: 5px; }
+
+/* ---- BOTTOM BAR ---- */
+.bottom-bar {
+  position: relative;
+  z-index: 10;
+  background: linear-gradient(180deg, #200845 0%, #0d0225 100%);
+  border-top: 3px solid rgba(180, 80, 255, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  gap: 14px;
+  flex-shrink: 0;
+  height: 90px;
+}
+
+.credit-block, .bet-block {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 110px;
+}
+.info-label { font-size: 0.68rem; color: rgba(255,255,255,0.45); text-transform: uppercase; letter-spacing: 1px; }
+.info-value { font-family: 'Fredoka One', cursive; font-size: 1.85rem; color: #FBBF24; text-shadow: 1px 1px 3px rgba(0,0,0,0.5); }
+
+.bottom-controls { display: flex; align-items: center; gap: 12px; }
+
+.icon-btn {
+  width: 48px; height: 48px;
+  background: rgba(255,255,255,0.08);
+  border: 2px solid rgba(255,255,255,0.2);
+  border-radius: 50%;
+  color: rgba(255,255,255,0.65);
+  font-size: 1.3rem;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.2s, border-color 0.2s;
+}
+.icon-btn:hover { background: rgba(255,255,255,0.18); border-color: rgba(255,255,255,0.5); }
+
+.spin-ring { position: relative; width: 100px; height: 100px; }
+
+.spin-button {
+  width: 100%; height: 100%;
+  border-radius: 50%;
+  border: 5px solid rgba(255,255,255,0.9);
+  background: conic-gradient(from 0deg, #F97316, #FBBF24, #22C55E, #3B82F6, #A855F7, #EC4899, #F97316);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  box-shadow:
+    0 0 0 4px rgba(255,255,255,0.12),
+    0 14px 0 rgba(0,0,0,0.5),
+    0 18px 35px rgba(0,0,0,0.6);
+  transition: box-shadow 0.1s, transform 0.1s;
+  display: flex; align-items: center; justify-content: center;
+}
+.spin-button:disabled { opacity: 0.5; cursor: not-allowed; }
+.spin-button:active:not(:disabled) {
+  box-shadow: 0 0 0 4px rgba(255,255,255,0.12), 0 4px 0 rgba(0,0,0,0.5), 0 6px 12px rgba(0,0,0,0.6);
+  transform: translateY(5px);
+}
+.spin-button::before {
+  content: '';
+  position: absolute;
+  inset: 5px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, rgba(255,255,255,0.3) 0%, transparent 65%);
+  pointer-events: none;
+}
+.spin-label {
+  font-family: 'Fredoka One', cursive;
+  font-size: 1.5rem;
+  color: white;
+  text-shadow: 2px 2px 5px rgba(0,0,0,0.7);
+  position: relative;
+  z-index: 1;
+  /* spinning glyph */
+  transition: transform 0.3s;
+}
+.spin-label.spinning { animation: reelSpin 0.4s linear infinite; }
+
+.adj-btn {
+  width: 48px; height: 48px;
+  background: linear-gradient(180deg, #374151, #1F2937);
+  border: 2px solid #4B5563;
+  border-radius: 50%;
+  color: white;
+  font-size: 1.5rem;
+  font-family: 'Fredoka One', cursive;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 5px 0 #111827;
+  transition: transform 0.1s, box-shadow 0.1s;
+}
+.adj-btn:active { transform: translateY(4px); box-shadow: 0 1px 0 #111827; }
+
+.turbo-label {
+  color: rgba(255,255,255,0.4);
+  font-size: 0.7rem;
+  text-align: right;
+  line-height: 1.5;
+  letter-spacing: 0.5px;
+  min-width: 100px;
+}
+
+/* Wallet button override */
+.wallet-adapter-button {
+  font-family: 'Fredoka One', cursive !important;
+  font-size: 0.95rem !important;
+  border-radius: 12px !important;
+  background: linear-gradient(180deg, #9333EA 0%, #6B21A8 100%) !important;
+  border: 2px solid #D946EF !important;
+  box-shadow: 0 5px 0 #4C1D95 !important;
+  padding: 10px 18px !important;
+  min-height: 44px !important;
+  height: 44px !important;
+}
+.wallet-adapter-button:not(:disabled):hover {
+  background: linear-gradient(180deg, #A855F7 0%, #7C3AED 100%) !important;
+}
