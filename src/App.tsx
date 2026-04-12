@@ -254,7 +254,7 @@ export default function App() {
           <img src={mainLogo} className="landing-hero-logo" alt="Token Logo" />
           
           <div className="landing-socials">
-            <a href="https://x.com/YourTokenHandle" target="_blank" rel="noreferrer" className="social-link x-link">
+            <a href="https://x.com/PumpBonanza" target="_blank" rel="noreferrer" className="social-link x-link">
               FOLLOW US ON 𝕏
             </a>
           </div>
@@ -387,7 +387,7 @@ export default function App() {
             </div>
             <div className="jw-action-row">
               <a 
-                href={`https://twitter.com/intent/tweet?text=I%20just%20hit%20the%20Jackpot%20on%20Pump%20Bonanza!%20%F0%9F%8E%B0%F0%9F%9A%80%0A%0AMy%20wallet:%20${jackpotWinner}%0A%0A%5BAttach%20Screenshot%20of%20this%20Window%20Here%5D%0A@YourTwitterHandle`} 
+                href={`https://twitter.com/intent/tweet?text=I%20just%20hit%20the%20Jackpot%20on%20Pump%20Bonanza!%20%F0%9F%8E%B0%F0%9F%9A%80%0A%0AMy%20wallet:%20${jackpotWinner}%0A%0A%5BAttach%20Screenshot%20of%20this%20Window%20Here%5D%0A@PumpBonanza`} 
                 target="_blank" 
                 rel="noreferrer" 
                 className="jw-x-btn"
