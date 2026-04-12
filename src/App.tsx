@@ -5,7 +5,7 @@ import { Connection, PublicKey } from '@solana/web3.js';
 import './App.css';
 
 // ─── Token Gating Configuration ─────────────────────────────────────────────
-const REQUIRED_TOKEN_MINT = 'MINT_ADDRESS_HERE'; // Replace when coin is live!
+const REQUIRED_TOKEN_MINT = '2mGYQAoizGfDgknXcLQBiipRvYZrhXW6hDEoJyo4pump'; // Live Token Contract
 const REQUIRED_TOKEN_BALANCE = 1;
 const JACKPOT_ALREADY_CLAIMED = false; // Dev can flip this to true when someone hits it!
 // ────────────────────────────────────────────────────────────────────────────
@@ -113,7 +113,7 @@ export default function App() {
     }
 
     // --- TOKEN GATING VERIFICATION ---
-    if (REQUIRED_TOKEN_MINT !== 'MINT_ADDRESS_HERE') {
+    if (REQUIRED_TOKEN_MINT) {
       try {
         setIsVerifying(true);
         // Using mainnet-beta, if you need devnet change to 'devnet' endpoint.
@@ -260,11 +260,11 @@ export default function App() {
           </div>
 
           <div className="landing-ca-box" onClick={() => {
-            navigator.clipboard.writeText('TBD_PUMP_FUN_ADDRESS');
+            navigator.clipboard.writeText('2mGYQAoizGfDgknXcLQBiipRvYZrhXW6hDEoJyo4pump');
             alert('CA Copied to clipboard!');
           }}>
             <span className="ca-label">CONTRACT ADDRESS:</span>
-            <span className="ca-value">TBD (PUMP.FUN)</span>
+            <span className="ca-value">2mGYQAoizGfDgknXcLQBiipRvYZrhXW6hDEoJyo4pump</span>
           </div>
 
           <div className="landing-instructions">
