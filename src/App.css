@@ -817,28 +817,29 @@
 /* ---- MOBILE OPTIMIZATION ---- */
 @media (max-width: 768px) {
   .sb-root {
-    overflow-y: auto;
-    overflow-x: hidden;
-    height: auto;
+    overflow: hidden;
+    height: 100vh;
     min-height: 100vh;
   }
 
   /* Slot Board Scaling */
   .slot-grid {
-    gap: 4px;
-    padding: 8px;
+    gap: 2px;
+    padding: 6px;
   }
   .slot-cell {
-    width: 46px;
-    height: 46px;
+    width: 12vw;
+    height: 12vw;
+    max-width: 42px;
+    max-height: 42px;
   }
   .symbol {
-    width: 42px;
-    height: 42px;
+    width: 90%;
+    height: 90%;
   }
   .board-wrapper {
-    margin-top: 10px;
-    margin-bottom: 20px;
+    margin-top: 5px;
+    margin-bottom: 0px;
   }
 
   /* Core Layout Adjustments */
@@ -846,8 +847,8 @@
     flex-direction: column;
     align-items: center;
     gap: 5px;
-    padding-top: 20px;
-    margin-bottom: 60px;
+    padding-top: 10px;
+    margin-bottom: 0;
   }
   .left-panel {
     position: relative;
@@ -858,16 +859,16 @@
     width: 100%;
     justify-content: space-between;
     align-items: center;
-    padding: 0 15px 10px 15px;
+    padding: 0 15px 5px 15px;
     background: transparent;
     box-shadow: none;
     border: none;
   }
   .brand-logo {
-    width: 120px;
+    width: 100px;
   }
   .wallet-wrap {
-    transform: scale(0.8);
+    transform: scale(0.75);
     transform-origin: right center;
   }
 
@@ -875,9 +876,13 @@
   .bottom-bar {
     flex-direction: column;
     height: auto;
-    padding: 15px;
-    gap: 15px;
+    padding: 5px 10px;
+    gap: 10px;
     justify-content: center;
+    position: absolute;
+    bottom: 5px;
+    left: 0;
+    right: 0;
   }
   .bb-center {
     display: none; /* Hide turbo text on mobile to save space */
