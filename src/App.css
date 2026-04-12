@@ -813,3 +813,101 @@
   50% { transform: translateY(-12px); }
   100% { transform: translateY(0px); }
 }
+
+/* ---- MOBILE OPTIMIZATION ---- */
+@media (max-width: 768px) {
+  /* Slot Board Scaling */
+  .slot-grid {
+    gap: 4px;
+    padding: 8px;
+  }
+  .slot-cell {
+    width: 46px;
+    height: 46px;
+  }
+  .symbol {
+    width: 42px;
+    height: 42px;
+  }
+  .board-wrapper {
+    margin-top: 10px;
+    margin-bottom: 120px; /* Space for stacked bottom bar */
+  }
+
+  /* Core Layout Adjustments */
+  .sb-main {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+  .left-panel {
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    background: transparent;
+    box-shadow: none;
+    border: none;
+  }
+  .brand-logo {
+    width: 120px;
+  }
+  .wallet-wrap {
+    transform: scale(0.8);
+    transform-origin: right center;
+  }
+
+  /* Bottom Bar Compression */
+  .bottom-bar {
+    flex-direction: column;
+    height: auto;
+    padding: 15px;
+    gap: 15px;
+    justify-content: center;
+  }
+  .bb-center {
+    display: none; /* Hide turbo text on mobile to save space */
+  }
+  .bb-left, .bb-right {
+    width: 100%;
+    justify-content: center;
+  }
+  .spin-button {
+    width: 70px;
+    height: 70px;
+  }
+  
+  /* Landing Page Resize */
+  .landing-content {
+    width: 92%;
+    padding: 20px;
+  }
+  .landing-hero-logo {
+    width: 220px;
+  }
+  .landing-instructions h2 {
+    font-size: 1.2rem;
+  }
+  .landing-instructions li {
+    font-size: 0.8rem;
+    padding: 12px 15px;
+  }
+  .landing-ca-box {
+    flex-direction: column;
+    text-align: center;
+    word-break: break-all;
+    gap: 5px;
+  }
+  .social-link {
+    font-size: 0.8rem;
+    padding: 8px 16px;
+  }
+  .jw-title {
+    font-size: 1.8rem;
+  }
+  .jw-address {
+    font-size: 0.9rem;
+    word-break: break-all;
+  }
+}
