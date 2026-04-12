@@ -253,6 +253,12 @@ export default function App() {
         <div className="landing-content">
           <img src={mainLogo} className="landing-hero-logo" alt="Token Logo" />
           
+          <div className="landing-socials">
+            <a href="https://x.com/YourTokenHandle" target="_blank" rel="noreferrer" className="social-link x-link">
+              FOLLOW US ON 𝕏
+            </a>
+          </div>
+
           <div className="landing-ca-box" onClick={() => {
             navigator.clipboard.writeText('TBD_PUMP_FUN_ADDRESS');
             alert('CA Copied to clipboard!');
