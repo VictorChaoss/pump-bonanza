@@ -1682,3 +1682,254 @@
   .terms-body { padding: 16px 20px; }
   .terms-accept { margin: 0 20px 20px; }
 }
+
+/* ══════════════════════════════════════
+   LIVE SPIN FEED TICKER
+   ══════════════════════════════════════ */
+.spin-feed-ticker {
+  width: 100%;
+  max-width: 480px;
+  overflow: hidden;
+  border: 1px solid rgba(168,85,247,0.15);
+  border-radius: 8px;
+  background: rgba(168,85,247,0.04);
+  padding: 7px 0;
+  margin: 6px 0 4px;
+}
+.spin-feed-inner {
+  display: flex;
+  gap: 0;
+  animation: feed-scroll 28s linear infinite;
+  white-space: nowrap;
+}
+@keyframes feed-scroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.spin-feed-item {
+  flex-shrink: 0;
+  font-size: 0.72rem;
+  color: rgba(255,255,255,0.55);
+  padding: 0 24px;
+  border-right: 1px solid rgba(255,255,255,0.07);
+}
+.spin-feed-item strong { color: rgba(255,255,255,0.8); }
+
+/* ══════════════════════════════════════
+   HALL OF LEGENDS
+   ══════════════════════════════════════ */
+.winners-hall {
+  width: 100%;
+  max-width: 420px;
+  border: 1px solid rgba(251,191,36,0.15);
+  border-radius: 14px;
+  background: rgba(251,191,36,0.04);
+  padding: 14px 18px;
+  margin: 8px 0 4px;
+}
+.winners-hall-title {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #fbbf24;
+  margin-bottom: 10px;
+}
+.winner-entry {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.winner-crown { font-size: 1.1rem; }
+.winner-addr {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #fff;
+  font-family: monospace;
+  flex: 1;
+}
+.winner-label {
+  font-size: 0.7rem;
+  color: rgba(255,255,255,0.35);
+  letter-spacing: 0.5px;
+}
+.winner-entry.empty .winner-addr { color: rgba(255,255,255,0.35); }
+
+/* ══════════════════════════════════════
+   COMMUNITY POOL
+   ══════════════════════════════════════ */
+.community-pool {
+  width: 100%;
+  max-width: 420px;
+  border: 1px solid rgba(34,211,238,0.15);
+  border-radius: 14px;
+  background: rgba(34,211,238,0.04);
+  padding: 14px 18px;
+  margin: 4px 0 8px;
+}
+.cp-title {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #22d3ee;
+  margin-bottom: 10px;
+}
+.cp-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
+}
+.cp-label { font-size: 0.78rem; color: rgba(255,255,255,0.4); }
+.cp-value { font-size: 0.8rem; font-weight: 700; color: #fff; }
+.cp-addr { font-family: monospace; font-size: 0.72rem; color: #22d3ee; }
+.cp-desc { font-size: 0.72rem; color: rgba(255,255,255,0.3); margin: 8px 0 0; line-height: 1.5; }
+
+/* ══════════════════════════════════════
+   SHARE BUTTON + FOOTER ROW
+   ══════════════════════════════════════ */
+.lp-footer-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 6px 0 2px;
+}
+.lp-share-btn {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: rgba(255,255,255,0.6);
+  text-decoration: none;
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 20px;
+  padding: 5px 14px;
+  transition: all 0.2s ease;
+  background: rgba(255,255,255,0.04);
+}
+.lp-share-btn:hover {
+  border-color: rgba(255,255,255,0.3);
+  color: #fff;
+  background: rgba(255,255,255,0.08);
+}
+.lp-footer-dot { color: rgba(255,255,255,0.2); font-size: 0.75rem; }
+
+/* ══════════════════════════════════════
+   RAGE MODE
+   ══════════════════════════════════════ */
+.rage-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 998;
+  background: radial-gradient(ellipse at center, rgba(239,68,68,0.08) 0%, transparent 70%);
+  animation: rage-pulse 1.2s ease-in-out infinite;
+}
+@keyframes rage-pulse {
+  0%, 100% { opacity: 0.6; }
+  50%       { opacity: 1; }
+}
+.rage-active .slot-grid {
+  box-shadow: 0 0 0 6px #F48FB1, 0 0 0 12px #ef4444, 0 15px 30px rgba(239,68,68,0.4),
+              0 0 60px rgba(239,68,68,0.3) !important;
+}
+.rage-badge {
+  margin-top: 12px;
+  padding: 8px 14px;
+  border-radius: 10px;
+  background: rgba(239,68,68,0.12);
+  border: 1px solid rgba(239,68,68,0.3);
+  color: #fca5a5;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-align: center;
+  line-height: 1.4;
+  animation: rage-badge-pulse 1s ease-in-out infinite;
+}
+@keyframes rage-badge-pulse {
+  0%, 100% { border-color: rgba(239,68,68,0.3); }
+  50%       { border-color: rgba(239,68,68,0.7); }
+}
+.rage-badge small { font-weight: 400; color: rgba(252,165,165,0.7); font-size: 0.7rem; }
+
+/* Rage meter in bottom bar */
+.rage-meter-wrap {
+  position: relative;
+  width: 180px;
+  height: 4px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 4px;
+  margin: 6px auto 0;
+  overflow: visible;
+}
+.rage-meter-bar {
+  height: 100%;
+  border-radius: 4px;
+  background: linear-gradient(90deg, #f97316, #ef4444);
+  transition: width 0.3s ease;
+  box-shadow: 0 0 6px rgba(239,68,68,0.6);
+}
+.rage-meter-label {
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.6rem;
+  color: rgba(255,255,255,0.35);
+  white-space: nowrap;
+  letter-spacing: 0.5px;
+}
+
+/* Rage spin button variant */
+.spin-button.rage-spin {
+  background: radial-gradient(circle at 40% 40%, #ff6b6b, #dc2626, #7f1d1d) !important;
+  box-shadow: 0 0 0 4px rgba(239,68,68,0.3), 0 0 30px rgba(239,68,68,0.5), inset 0 2px 4px rgba(255,255,255,0.15) !important;
+  animation: rage-spin-pulse 0.8s ease-in-out infinite !important;
+}
+@keyframes rage-spin-pulse {
+  0%, 100% { box-shadow: 0 0 0 4px rgba(239,68,68,0.3), 0 0 30px rgba(239,68,68,0.5), inset 0 2px 4px rgba(255,255,255,0.15); }
+  50%       { box-shadow: 0 0 0 8px rgba(239,68,68,0.15), 0 0 50px rgba(239,68,68,0.7), inset 0 2px 4px rgba(255,255,255,0.15); }
+}
+
+/* ══════════════════════════════════════
+   DAILY FREE SPIN
+   ══════════════════════════════════════ */
+.free-spin-banner {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 9999;
+  text-align: center;
+  padding: 8px 20px;
+  background: rgba(234,179,8,0.1);
+  border-bottom: 1px solid rgba(234,179,8,0.25);
+  backdrop-filter: blur(12px);
+  font-size: 0.8rem;
+  color: rgba(255,255,255,0.7);
+}
+.free-spin-banner strong { color: #fbbf24; }
+.free-spin-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #fbbf24;
+  letter-spacing: 1px;
+  animation: free-spin-blink 1.2s ease-in-out infinite;
+}
+@keyframes free-spin-blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.5; }
+}
+.spin-button.free-spin-glow {
+  box-shadow: 0 0 0 4px rgba(234,179,8,0.3), 0 0 30px rgba(234,179,8,0.5), inset 0 2px 4px rgba(255,255,255,0.15) !important;
+}
+
+/* ── Daily prize badge ── */
+.lp-daily-badge {
+  font-size: 0.72rem;
+  color: rgba(255,255,255,0.5);
+  background: rgba(234,179,8,0.06);
+  border: 1px solid rgba(234,179,8,0.15);
+  border-radius: 20px;
+  padding: 5px 16px;
+  margin-top: 6px;
+  letter-spacing: 0.3px;
+}
+.lp-daily-badge strong { color: #fbbf24; }
