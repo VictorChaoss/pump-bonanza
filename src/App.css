@@ -236,8 +236,8 @@
     0 0 0 12px #CE93D8,
     0 15px 30px rgba(0,0,0,0.5);
   width: 100%;
-  max-width: min(860px, 100%);
-  aspect-ratio: 6 / 5;
+  max-width: min(960px, 100%);
+  aspect-ratio: 6 / 5.5;
   overflow: hidden;
 }
 
@@ -302,9 +302,9 @@
 }
 
 .symbol {
-  width: 75%;
+  width: 90%;
   height: auto;
-  max-height: 80%;
+  max-height: 90%;
   object-fit: contain;
   user-select: none;
   display: block;
@@ -1534,4 +1534,22 @@
   margin: 0 0 20px;
   max-width: 320px;
   text-align: center;
+}
+/* ── Music button ── */
+.music-btn {
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 8px;
+  color: rgba(255,255,255,0.6);
+  font-size: 1.1rem;
+  padding: 6px 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-left: 8px;
+  line-height: 1;
+}
+.music-btn:hover, .music-btn.on {
+  background: rgba(168,85,247,0.2);
+  border-color: rgba(168,85,247,0.4);
+  color: #fff;
 }

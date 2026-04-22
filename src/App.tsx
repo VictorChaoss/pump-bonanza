@@ -1,14 +1,12 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
-import { Connection, PublicKey } from '@solana/web3.js';
 import './App.css';
 
-// ─── Token Gating Configuration ─────────────────────────────────────────────
-const REQUIRED_TOKEN_MINT = '2mGYQAoizGfDgknXcLQBiipRvYZrhXW6hDEoJyo4pump'; // Live Token Contract
-const REQUIRED_TOKEN_BALANCE = 1;
-const JACKPOT_ALREADY_CLAIMED = false; // Dev can flip this to true when someone hits it!
-// ────────────────────────────────────────────────────────────────────────────
+// ─── Configuration ────────────────────────────────────────────────────────────
+const JACKPOT_ALREADY_CLAIMED = false; // Flip to true once jackpot is paid out
+const CASINO_MUSIC_URL = 'https://archive.org/download/78_maple-leaf-rag_scott-joplin/Maple_Leaf_Rag_-_Scott_Joplin.mp3';
+// ─────────────────────────────────────────────────────────────────────────────
 
 // ─── Symbols ────────────────────────────────────────────────────────────────
 import alonIcon from './assets/symbols/Alon.png';
@@ -91,16 +89,34 @@ export default function App() {
   const [hasEntered, setHasEntered] = useState(false);
   const [demoMode, setDemoMode] = useState(false);
   const [demoCredits, setDemoCredits] = useState(1000);
+  const [musicOn, setMusicOn] = useState(false);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
   const [grid, setGrid] = useState<Cell[][]>(makeGrid);
   const [colSpinning, setColSpinning] = useState<boolean[]>(Array(COLS).fill(false));
   const [isSpinning, setIsSpinning] = useState(false);
-  const [isVerifying, setIsVerifying] = useState(false);
+  const [isVerifying] = useState(false);
   const [showWinFlash, setShowWinFlash] = useState(false);
   const [jackpotWinner, setJackpotWinner] = useState<string | null>(null);
   const [showJackpotModal, setShowJackpotModal] = useState(false);
   const [bet] = useState(1.0);
   const spinInProgress = useRef(false);
   const timeouts = useRef<ReturnType<typeof setTimeout>[]>([]);
+
+  // Casino music
+  useEffect(() => {
+    if (!audioRef.current) {
+      audioRef.current = new Audio(CASINO_MUSIC_URL);
+      audioRef.current.loop = true;
+      audioRef.current.volume = 0.35;
+    }
+    if (musicOn) {
+      audioRef.current.play().catch(() => {});
+    } else {
+      audioRef.current.pause();
+    }
+    return () => { audioRef.current?.pause(); };
+  }, [musicOn]);
+
 
   const clearAllTimeouts = () => {
     timeouts.current.forEach(clearTimeout);
@@ -177,39 +193,7 @@ export default function App() {
       return;
     }
 
-    // --- TOKEN GATING VERIFICATION ---
-    if (REQUIRED_TOKEN_MINT) {
-      try {
-        setIsVerifying(true);
-        // Using mainnet-beta, if you need devnet change to 'devnet' endpoint.
-        const connection = new Connection('https://api.mainnet-beta.solana.com');
-        const mintPubKey = new PublicKey(REQUIRED_TOKEN_MINT);
-        
-        const response = await connection.getParsedTokenAccountsByOwner(publicKey, {
-          mint: mintPubKey
-        });
-        
-        let foundBalance = 0;
-        if (response.value.length > 0) {
-          const uiAmount = response.value[0].account.data.parsed.info.tokenAmount.uiAmount;
-          foundBalance = uiAmount || 0;
-        }
-
-        if (foundBalance < REQUIRED_TOKEN_BALANCE) {
-          alert(`🚫 Access Denied!\nYou need to hold at least ${REQUIRED_TOKEN_BALANCE} tokens to play!`);
-          setIsVerifying(false);
-          return; // STOP EXECUTION
-        }
-      } catch (err) {
-        console.error("Token verification failed:", err);
-        alert("⚠️ Failed to verify token holding balance securely.");
-        setIsVerifying(false);
-        return; // Safe failure, do not allow play
-      } finally {
-        setIsVerifying(false); // Validated successfully
-      }
-    }
-    // ---------------------------------
+    // Token gating disabled — open to all wallet holders
 
     spinInProgress.current = true;
     setIsSpinning(true);
@@ -379,9 +363,9 @@ export default function App() {
 
           <div className="lp-steps">
             {[
-              { n:'01', t:'Hold $PUMP1000', s:'Required to play' },
-              { n:'02', t:'Connect Wallet', s:'Verified on-chain' },
-              { n:'03', t:'Spin the Reels', s:'1 in 100,000 jackpot' },
+              { n:'01', t:'Connect Wallet', s:'Any Solana wallet' },
+              { n:'02', t:'Spin the Reels', s:'Free to play' },
+              { n:'03', t:'Hit Jackpot', s:'1 in 100,000 chance' },
               { n:'04', t:'Claim 10 SOL', s:'Instant verification' },
             ].map((step, i) => (
               <div key={i} className="lp-step">
@@ -403,7 +387,7 @@ export default function App() {
             🎮&nbsp; Try Demo — No Wallet Needed
           </button>
 
-          <p className="lp-disclaimer">Hold $PUMP1000 to play · 18+ · Play responsibly</p>
+          <p className="lp-disclaimer">Connect any Solana wallet to play · 18+ · Play responsibly</p>
         </main>
 
         <div className="lp-candy-bar" />
@@ -412,7 +396,7 @@ export default function App() {
   }
 
   return (
-    <div className="sb-root">
+    <div className="sb-root" style={demoMode ? { paddingTop: '40px' } : {}}>
       {showWinFlash && <div className="win-flash" />}
 
       {/* Clouds */}
@@ -487,6 +471,14 @@ export default function App() {
         <div className="bb-left">
           <button className="bottom-home-btn" onClick={() => setHasEntered(false)}>
             « BACK TO LANDING PAGE
+          </button>
+          <button
+            className={`music-btn${musicOn ? ' on' : ''}`}
+            onClick={() => setMusicOn(p => !p)}
+            title={musicOn ? 'Mute music' : 'Play music'}
+            aria-label="Toggle music"
+          >
+            {musicOn ? '🔊' : '🔇'}
           </button>
         </div>
 
