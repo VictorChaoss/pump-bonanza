@@ -428,12 +428,18 @@ export default function App() {
                     <li>Post it publicly on X (Twitter) tagging <strong>@PumpBonanza</strong></li>
                     <li>The developer will verify the claim on-chain and send SOL within 24 hours</li>
                   </ol>
-                  <p>Only one jackpot claim is processed at a time. The <code>JACKPOT_ALREADY_CLAIMED</code> flag in the application source code is publicly visible on <a href="https://github.com/VictorChaoss/pump-bonanza" target="_blank" rel="noreferrer">GitHub</a> and will be set to <code>true</code> once a jackpot is paid out.</p>
+                  <p>Only one jackpot claim is processed at a time. Once a jackpot has been paid out, the game will display a public notice and the jackpot pool will be reset or paused until a new prize pot is announced via the official <strong>@PumpBonanza</strong> X account.</p>
+                </section>
+
+                <section>
+                  <h3>Jackpot Growth &amp; Updates</h3>
+                  <p>The jackpot prize starts at <strong>10+ SOL</strong> and may be <strong>increased over time</strong> as the project grows and the community expands. Prize updates will always be announced publicly on <strong>@PumpBonanza</strong> before taking effect. The current active jackpot amount is always displayed on the landing page.</p>
+                  <p>In the event that no jackpot is claimed within a given season, the prize pool may roll over or be redistributed — details will be announced in advance via the official X account.</p>
                 </section>
 
                 <section>
                   <h3>Fairness &amp; Transparency</h3>
-                  <p>The full application source code is publicly available on GitHub. Anyone can inspect the RNG logic, jackpot probability, and wallet interaction code. We have nothing hidden.</p>
+                  <p>The game's random number generation runs entirely in your browser. Every spin is independent and the outcome is determined the moment you click — nothing is pre-calculated or server-controlled. The jackpot odds and mechanics will never be changed without a public announcement.</p>
                 </section>
 
                 <section>
