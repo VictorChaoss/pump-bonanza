@@ -1152,8 +1152,9 @@
   align-items: center;
   text-align: center;
   padding: 0 24px;
-  max-width: 720px;
+  max-width: 760px;
   width: 100%;
+  gap: 0;
   animation: lp-rise 0.7s cubic-bezier(0.23, 1, 0.32, 1) both;
 }
 @keyframes lp-rise {
@@ -1161,7 +1162,33 @@
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* ── Logo ── */
+/* ── Jackpot badge ── */
+.lp-jackpot-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 20px;
+  border-radius: 40px;
+  border: 1px solid rgba(250, 204, 21, 0.3);
+  background: rgba(250, 204, 21, 0.06);
+  color: rgba(255,255,255,0.8);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  margin-bottom: 16px;
+  position: relative;
+}
+.lp-jackpot-badge strong { color: #fbbf24; }
+.lp-jb-pulse {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: #fbbf24;
+  box-shadow: 0 0 10px #fbbf24;
+  animation: lp-dot-blink 1.5s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+/* ── Logo wrap ── */
 .lp-logo-wrap {
   position: relative;
   margin-bottom: 20px;
@@ -1170,9 +1197,9 @@
   position: absolute;
   top: 50%; left: 50%;
   transform: translate(-50%, -50%);
-  width: 340px; height: 180px;
+  width: 480px; height: 240px;
   border-radius: 50%;
-  background: radial-gradient(ellipse, rgba(168, 85, 247, 0.5) 0%, transparent 70%);
+  background: radial-gradient(ellipse, rgba(168, 85, 247, 0.55) 0%, transparent 70%);
   animation: lp-halo-pulse 3s ease-in-out infinite;
   pointer-events: none;
 }
@@ -1181,11 +1208,11 @@
   50%       { opacity: 1;   transform: translate(-50%,-50%) scale(1.08); }
 }
 .lp-logo {
-  max-width: 300px;
-  width: 90vw;
+  max-width: 400px;
+  width: 88vw;
   height: auto;
   position: relative;
-  filter: drop-shadow(0 0 40px rgba(168,85,247,0.6)) drop-shadow(0 20px 30px rgba(0,0,0,0.5));
+  filter: drop-shadow(0 0 50px rgba(168,85,247,0.7)) drop-shadow(0 24px 36px rgba(0,0,0,0.6));
   animation: lp-float 5s ease-in-out infinite;
 }
 @keyframes lp-float {
@@ -1195,11 +1222,37 @@
 
 /* ── Tagline ── */
 .lp-tagline {
-  font-size: clamp(1rem, 2.5vw, 1.25rem);
+  font-size: clamp(0.95rem, 2vw, 1.15rem);
   font-weight: 400;
-  color: rgba(255,255,255,0.55);
-  margin: 0 0 18px;
+  color: rgba(255,255,255,0.45);
+  margin: 8px 0 14px;
   letter-spacing: 0.3px;
+}
+
+/* ── Icon strip ── */
+.lp-icon-strip {
+  display: flex;
+  gap: 0;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  width: 100%;
+  max-width: 600px;
+  margin-bottom: 20px;
+  mask-image: linear-gradient(90deg, transparent 0%, black 15%, black 85%, transparent 100%);
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, black 15%, black 85%, transparent 100%);
+}
+.lp-strip-icon {
+  width: 52px;
+  height: 52px;
+  object-fit: contain;
+  filter: saturate(0.8);
+  animation: lp-icon-bob 2.4s ease-in-out infinite alternate;
+  flex-shrink: 0;
+}
+@keyframes lp-icon-bob {
+  from { transform: translateY(0px) scale(1); }
+  to   { transform: translateY(-8px) scale(1.05); }
 }
 
 /* ── CA pill ── */
@@ -1207,12 +1260,12 @@
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  padding: 8px 20px;
+  padding: 7px 18px;
   border-radius: 40px;
   border: 1px solid rgba(255,255,255,0.1);
   background: rgba(255,255,255,0.04);
   backdrop-filter: blur(12px);
-  margin-bottom: 32px;
+  margin-bottom: 20px;
 }
 .lp-ca-dot {
   width: 7px; height: 7px;
@@ -1255,7 +1308,7 @@
   display: flex;
   align-items: stretch;
   gap: 0;
-  margin-bottom: 36px;
+  margin-bottom: 24px;
   width: 100%;
   max-width: 660px;
 }

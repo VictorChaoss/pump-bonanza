@@ -285,6 +285,12 @@ export default function App() {
 
         {/* Hero */}
         <main className="lp-hero">
+          {/* Jackpot badge */}
+          <div className="lp-jackpot-badge">
+            <span className="lp-jb-pulse" />
+            🏆&nbsp; JACKPOT: <strong>10+ SOL</strong> &nbsp;·&nbsp; 1 in 100,000 chance
+          </div>
+
           <div className="lp-logo-wrap">
             <div className="lp-logo-halo" />
             <img src={mainLogo} className="lp-logo" alt="Pump Bonanza 1000" />
@@ -297,6 +303,13 @@ export default function App() {
             <span className="lp-ca-label">CA</span>
             <span className="lp-ca-divider" />
             <span className="lp-ca-value">Coming Soon</span>
+          </div>
+
+          {/* Icon strip */}
+          <div className="lp-icon-strip" aria-hidden>
+            {[alonIcon, fwogIcon, trollIcon, solanaIcon, pumpFunIcon, michiIcon, icon67, chillHouseIcon, pnutIcon, tungtungIcon].map((src, i) => (
+              <img key={i} src={src} className="lp-strip-icon" alt="" style={{ animationDelay: `${i * -0.4}s` }} />
+            ))}
           </div>
 
           <div className="lp-steps">
