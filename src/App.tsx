@@ -301,7 +301,7 @@ export default function App() {
       }, stopAt);
       timeouts.current.push(t);
     });
-  }, [connected, bet]);
+  }, [connected, bet, demoMode, demoCredits]);
 
   // Keyboard: spacebar = spin (like real Sweet Bonanza)
   useEffect(() => {
