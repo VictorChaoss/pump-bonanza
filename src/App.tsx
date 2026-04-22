@@ -248,36 +248,83 @@ export default function App() {
   }, [spin]);
 
   if (!hasEntered) {
+    const floatIcons = [
+      alonIcon, fwogIcon, trollIcon, solanaIcon, pumpFunIcon,
+      michiIcon, icon67, chillHouseIcon, pnutIcon, tungtungIcon,
+      fwogIcon, trollIcon, alonIcon, solanaIcon, michiIcon, icon67,
+    ];
     return (
-      <div className="landing-page-container">
-        <div className="landing-content">
-          <img src={mainLogo} className="landing-hero-logo" alt="Token Logo" />
-          
-          <div className="landing-socials">
-            <a href="https://x.com/PumpBonanza" target="_blank" rel="noreferrer" className="social-link x-link">
-              FOLLOW US ON 𝕏
-            </a>
-          </div>
-
-          <div className="landing-ca-box">
-            <span className="ca-label">CONTRACT ADDRESS:</span>
-            <span className="ca-value ca-coming-soon">🔜 Coming Soon</span>
-          </div>
-
-          <div className="landing-instructions">
-            <h2>🎰 HOW TO PLAY & WIN 🎰</h2>
-            <ul>
-               <li><strong>1. Hold $Pump1000:</strong> You must hold the coin to spin.</li>
-               <li><strong>2. Connect Wallet:</strong> Verify your holdings on-chain.</li>
-               <li><strong>3. Spin the Reels:</strong> Hit the 1 in 100,000 chance to win 10 SOL + Dev Fees!</li>
-               <li><strong>4. Claim Prize:</strong> The Jackpot statically verifies your winning wallet instantly!</li>
-            </ul>
-          </div>
-
-          <button className="landing-enter-btn" onClick={() => setHasEntered(true)}>
-            ENTER CASINO
-          </button>
+      <div className="lp-root">
+        {/* Floating game icons background */}
+        <div className="lp-icons-bg" aria-hidden>
+          {floatIcons.map((src, i) => (
+            <img key={i} src={src} className="lp-float-icon" alt=""
+              style={{
+                left: `${(i * 6.5) % 96}%`,
+                animationDuration: `${9 + (i % 6) * 1.5}s`,
+                animationDelay: `-${(i * 1.7) % 14}s`,
+                width: `${48 + (i % 5) * 16}px`,
+                animationName: i % 2 === 0 ? 'lp-drift-a' : 'lp-drift-b',
+              }}
+            />
+          ))}
         </div>
+
+        {/* Orbs */}
+        <div className="lp-orb lp-orb-a" aria-hidden />
+        <div className="lp-orb lp-orb-b" aria-hidden />
+        <div className="lp-orb lp-orb-c" aria-hidden />
+
+        {/* Top bar */}
+        <header className="lp-bar">
+          <span className="lp-bar-badge">🎰 Solana Casino</span>
+          <a href="https://x.com/PumpBonanza" target="_blank" rel="noreferrer" className="lp-bar-x">
+            Follow @PumpBonanza&nbsp;↗
+          </a>
+        </header>
+
+        {/* Hero */}
+        <main className="lp-hero">
+          <div className="lp-logo-wrap">
+            <div className="lp-logo-halo" />
+            <img src={mainLogo} className="lp-logo" alt="Pump Bonanza 1000" />
+          </div>
+
+          <p className="lp-tagline">The most degenerate slot machine on Solana.</p>
+
+          <div className="lp-ca-row">
+            <span className="lp-ca-dot" />
+            <span className="lp-ca-label">CA</span>
+            <span className="lp-ca-divider" />
+            <span className="lp-ca-value">Coming Soon</span>
+          </div>
+
+          <div className="lp-steps">
+            {[
+              { n:'01', t:'Hold $PUMP1000', s:'Required to play' },
+              { n:'02', t:'Connect Wallet', s:'Verified on-chain' },
+              { n:'03', t:'Spin the Reels', s:'1 in 100,000 jackpot' },
+              { n:'04', t:'Claim 10 SOL', s:'Instant verification' },
+            ].map((step, i) => (
+              <div key={i} className="lp-step">
+                <div className="lp-step-n">{step.n}</div>
+                <div className="lp-step-body">
+                  <strong>{step.t}</strong>
+                  <span>{step.s}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <button className="lp-cta" onClick={() => setHasEntered(true)} id="enter-casino-btn">
+            <span className="lp-cta-shine" />
+            🎰&nbsp; ENTER CASINO
+          </button>
+
+          <p className="lp-disclaimer">Hold $PUMP1000 to play · 18+ · Play responsibly</p>
+        </main>
+
+        <div className="lp-candy-bar" />
       </div>
     );
   }
