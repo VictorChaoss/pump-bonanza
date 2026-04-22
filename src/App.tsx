@@ -91,6 +91,7 @@ export default function App() {
   const [demoCredits, setDemoCredits] = useState(1000);
   const [musicOn, setMusicOn] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const [showTerms, setShowTerms] = useState(false);
   const [grid, setGrid] = useState<Cell[][]>(makeGrid);
   const [colSpinning, setColSpinning] = useState<boolean[]>(Array(COLS).fill(false));
   const [isSpinning, setIsSpinning] = useState(false);
@@ -387,10 +388,77 @@ export default function App() {
             🎮&nbsp; Try Demo — No Wallet Needed
           </button>
 
-          <p className="lp-disclaimer">Connect any Solana wallet to play · 18+ · Play responsibly</p>
+          <p className="lp-disclaimer">
+            Connect any Solana wallet to play · 18+ · Play responsibly ·{' '}
+            <button className="lp-terms-link" onClick={() => setShowTerms(true)}>How it works &amp; T&amp;Cs</button>
+          </p>
         </main>
 
         <div className="lp-candy-bar" />
+
+        {/* Terms Modal */}
+        {showTerms && (
+          <div className="terms-overlay" onClick={() => setShowTerms(false)}>
+            <div className="terms-modal" onClick={e => e.stopPropagation()}>
+              <button className="terms-close" onClick={() => setShowTerms(false)}>✕</button>
+              <h2 className="terms-title">🎰 How Pump Bonanza Works &amp; Terms</h2>
+
+              <div className="terms-body">
+                <section>
+                  <h3>How the Game Works</h3>
+                  <p>Pump Bonanza 1000 is a browser-based slot machine. Each spin generates a random outcome using JavaScript's <code>Math.random()</code> function, seeded by your browser's cryptographically secure random number generator. No spin outcome is predetermined or stored before you click.</p>
+                </section>
+
+                <section>
+                  <h3>The Jackpot Mechanism</h3>
+                  <p>Every spin has an independent <strong>1 in 100,000</strong> chance of hitting the jackpot. This is calculated client-side as: <code>Math.random() &lt; 0.00001</code>. Each spin is a <strong>completely independent event</strong> — previous spins have zero effect on future outcomes. There is no guaranteed number of spins before a jackpot can occur.</p>
+                  <p>Demo mode uses a higher rate (1 in 500) purely to demonstrate the win animation. Demo wins carry no monetary value.</p>
+                </section>
+
+                <section>
+                  <h3>Wallet Connection</h3>
+                  <p>We use the <strong>Solana Wallet Adapter</strong> (open source) to connect your wallet. We only read your <strong>public key</strong> (wallet address) — we never request signing authority, access to your funds, or your private key. Connecting your wallet does not give us any ability to move tokens or SOL.</p>
+                </section>
+
+                <section>
+                  <h3>Jackpot Prize &amp; Payout</h3>
+                  <p>The current jackpot prize is <strong>10+ SOL</strong> held by the developer's wallet. In the event of a jackpot win, the winner must:</p>
+                  <ol>
+                    <li>Take a screenshot of the jackpot screen showing their wallet address</li>
+                    <li>Post it publicly on X (Twitter) tagging <strong>@PumpBonanza</strong></li>
+                    <li>The developer will verify the claim on-chain and send SOL within 24 hours</li>
+                  </ol>
+                  <p>Only one jackpot claim is processed at a time. The <code>JACKPOT_ALREADY_CLAIMED</code> flag in the application source code is publicly visible on <a href="https://github.com/VictorChaoss/pump-bonanza" target="_blank" rel="noreferrer">GitHub</a> and will be set to <code>true</code> once a jackpot is paid out.</p>
+                </section>
+
+                <section>
+                  <h3>Fairness &amp; Transparency</h3>
+                  <p>The full application source code is publicly available on GitHub. Anyone can inspect the RNG logic, jackpot probability, and wallet interaction code. We have nothing hidden.</p>
+                </section>
+
+                <section>
+                  <h3>Disclaimers</h3>
+                  <ul>
+                    <li>This is an <strong>entertainment product</strong>. It is not a regulated gambling service.</li>
+                    <li>You must be <strong>18 or older</strong> to play.</li>
+                    <li>Play is free — no SOL or tokens are required to spin. The jackpot is funded separately by the developer.</li>
+                    <li>Cryptocurrency values are volatile. SOL prize value may fluctuate.</li>
+                    <li>This game is not available to residents of jurisdictions where such games are prohibited.</li>
+                    <li>The developer reserves the right to modify jackpot amounts, odds, or discontinue the game at any time.</li>
+                    <li>Past results do not predict future outcomes.</li>
+                  </ul>
+                </section>
+
+                <section>
+                  <h3>Contact</h3>
+                  <p>For questions or jackpot claims: <strong>@PumpBonanza</strong> on X</p>
+                </section>
+              </div>
+
+              <button className="terms-accept" onClick={() => setShowTerms(false)}>Got it — Close</button>
+            </div>
+          </div>
+        )}
       </div>
     );
   }
