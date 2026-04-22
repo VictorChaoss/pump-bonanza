@@ -1445,3 +1445,93 @@
   .lp-cta { font-size: 0.95rem; padding: 18px 0; }
   .lp-tagline { font-size: 0.9rem; }
 }
+
+/* ══════════════════════════════════════
+   DEMO MODE
+   ══════════════════════════════════════ */
+
+/* ── Try Demo button on landing ── */
+.lp-demo-btn {
+  width: 100%;
+  max-width: 420px;
+  padding: 13px 0;
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 14px;
+  background: rgba(255,255,255,0.04);
+  color: rgba(255,255,255,0.55);
+  font-family: 'Inter', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  backdrop-filter: blur(8px);
+}
+.lp-demo-btn:hover {
+  background: rgba(255,255,255,0.08);
+  border-color: rgba(255,255,255,0.25);
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+/* ── Demo banner in game ── */
+.demo-banner {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 8px 20px;
+  background: rgba(234, 179, 8, 0.12);
+  border-bottom: 1px solid rgba(234, 179, 8, 0.3);
+  backdrop-filter: blur(12px);
+  flex-wrap: wrap;
+}
+.demo-badge {
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: #fbbf24;
+  text-transform: uppercase;
+}
+.demo-credits {
+  font-size: 0.8rem;
+  color: rgba(255,255,255,0.6);
+}
+.demo-credits strong { color: #fff; }
+.demo-upgrade-btn {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #fbbf24;
+  text-decoration: none;
+  border: 1px solid rgba(234,179,8,0.35);
+  padding: 4px 12px;
+  border-radius: 20px;
+  transition: all 0.2s ease;
+}
+.demo-upgrade-btn:hover {
+  background: rgba(234,179,8,0.12);
+  border-color: rgba(234,179,8,0.6);
+}
+
+/* ── Demo jackpot modal variant ── */
+.demo-jackpot {
+  border-color: rgba(234,179,8,0.3) !important;
+  box-shadow: 0 0 0 1px rgba(234,179,8,0.15), 0 30px 60px rgba(0,0,0,0.7) !important;
+}
+.demo-jackpot .jw-title {
+  background: linear-gradient(135deg, #fbbf24, #f97316);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.demo-jw-body {
+  font-size: 0.85rem;
+  color: rgba(255,255,255,0.55);
+  line-height: 1.6;
+  margin: 0 0 20px;
+  max-width: 320px;
+  text-align: center;
+}

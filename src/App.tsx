@@ -89,6 +89,8 @@ function BlurTicker({ active }: { active: boolean }) {
 export default function App() {
   const { connected, publicKey } = useWallet();
   const [hasEntered, setHasEntered] = useState(false);
+  const [demoMode, setDemoMode] = useState(false);
+  const [demoCredits, setDemoCredits] = useState(1000);
   const [grid, setGrid] = useState<Cell[][]>(makeGrid);
   const [colSpinning, setColSpinning] = useState<boolean[]>(Array(COLS).fill(false));
   const [isSpinning, setIsSpinning] = useState(false);
@@ -107,6 +109,69 @@ export default function App() {
 
   const spin = useCallback(async () => {
     if (spinInProgress.current || isVerifying) return;
+
+    // ── DEMO MODE: no wallet, higher jackpot rate ──
+    if (demoMode) {
+      if (demoCredits <= 0) {
+        alert('💸 Out of demo credits! Buy $PUMP1000 to play for real.');
+        return;
+      }
+      spinInProgress.current = true;
+      setIsSpinning(true);
+      clearAllTimeouts();
+      setDemoCredits(c => c - 1);
+
+      const isJackpot = Math.random() < 0.002; // 1 in 500 for demo
+      const newGrid = isJackpot
+        ? Array.from({ length: ROWS }, (_, r) =>
+            Array.from({ length: COLS }, (_, c) => ({
+              symbol: SYMBOLS[0],
+              state: 'idle' as CellState,
+              idleDelay: (r * COLS + c) * 0.18,
+            })))
+        : makeGrid();
+
+      setColSpinning(Array(COLS).fill(true));
+      COL_STOP_DELAYS.forEach((stopAt, col) => {
+        const t = setTimeout(() => {
+          setColSpinning(prev => { const n = [...prev]; n[col] = false; return n; });
+          setGrid(prev => {
+            const next = prev.map(row => row.map(cell => ({ ...cell })));
+            for (let r = 0; r < ROWS; r++) {
+              next[r][col] = { symbol: newGrid[r][col].symbol, state: 'landing', idleDelay: (r * COLS + col) * 0.18 };
+            }
+            return next;
+          });
+          const t2 = setTimeout(() => {
+            setGrid(prev => {
+              const next = prev.map(row => row.map(cell => ({ ...cell })));
+              for (let r = 0; r < ROWS; r++) {
+                if (next[r][col].state === 'landing') next[r][col] = { ...next[r][col], state: 'idle' };
+              }
+              return next;
+            });
+            if (col === COLS - 1) {
+              spinInProgress.current = false;
+              setIsSpinning(false);
+              if (isJackpot) {
+                setShowWinFlash(true);
+                setTimeout(() => setShowWinFlash(false), 1200);
+                setGrid(prev => prev.map(row => row.map(cell => ({ ...cell, state: 'winning' as CellState }))));
+                setTimeout(() => {
+                  setGrid(prev => prev.map(row => row.map(cell => ({ ...cell, state: 'idle' as CellState }))));
+                  setShowJackpotModal(true);
+                }, 2100);
+              }
+            }
+          }, 480);
+          timeouts.current.push(t2);
+        }, stopAt);
+        timeouts.current.push(t);
+      });
+      return;
+    }
+    // ──────────────────────────────────────────────
+
     if (!connected || !publicKey) {
       alert('🔒 Please connect your Solana wallet first!');
       return;
@@ -329,9 +394,13 @@ export default function App() {
             ))}
           </div>
 
-          <button className="lp-cta" onClick={() => setHasEntered(true)} id="enter-casino-btn">
+          <button className="lp-cta" onClick={() => { setDemoMode(false); setHasEntered(true); }} id="enter-casino-btn">
             <span className="lp-cta-shine" />
             🎰&nbsp; ENTER CASINO
+          </button>
+
+          <button className="lp-demo-btn" onClick={() => { setDemoMode(true); setDemoCredits(1000); setHasEntered(true); }} id="try-demo-btn">
+            🎮&nbsp; Try Demo — No Wallet Needed
           </button>
 
           <p className="lp-disclaimer">Hold $PUMP1000 to play · 18+ · Play responsibly</p>
@@ -354,12 +423,23 @@ export default function App() {
         <div className="cloud c4" />
       </div>
 
+      {/* Demo banner */}
+      {demoMode && (
+        <div className="demo-banner">
+          <span className="demo-badge">🎮 DEMO MODE</span>
+          <span className="demo-credits">Credits: <strong>{demoCredits}</strong></span>
+          <a href="https://pump.fun" target="_blank" rel="noreferrer" className="demo-upgrade-btn">
+            Buy $PUMP1000 to play for real →
+          </a>
+        </div>
+      )}
+
       {/* Main */}
       <div className="sb-main">
         {/* LEFT PANEL */}
         <div className="left-panel">
           <img src={mainLogo} className="brand-logo" alt="Main Logo" />
-          <div className="wallet-wrap"><WalletMultiButton /></div>
+          {!demoMode && <div className="wallet-wrap"><WalletMultiButton /></div>}
         </div>
 
         {/* GAME BOARD */}
@@ -432,32 +512,46 @@ export default function App() {
 
       <div className="candy-ground" />
 
-      {/* 🎰 Jackpot Modal 🎰 */}
-      {showJackpotModal && jackpotWinner && (
+      {/* 🎰 Real Jackpot Modal */}
+      {showJackpotModal && !demoMode && jackpotWinner && (
         <div className="jackpot-modal-overlay">
           <div className="jackpot-modal-content">
             <h1 className="jw-title">🎉 JACKPOT WINNER 🎉</h1>
             <p className="jw-subtitle">A staggering 1-in-10,000,000 hit!</p>
             <div className="jw-address">
-              Wallet Assessed & Verified:<br/>
+              Wallet Assessed &amp; Verified:<br/>
               <span className="address-highlight">{jackpotWinner}</span>
             </div>
             <div className="jw-action-row">
-              <a 
-                href={`https://twitter.com/intent/tweet?text=I%20just%20hit%20the%20Jackpot%20on%20Pump%20Bonanza!%20%F0%9F%8E%B0%F0%9F%9A%80%0A%0AMy%20wallet:%20${jackpotWinner}%0A%0A%5BAttach%20Screenshot%20of%20this%20Window%20Here%5D%0A@PumpBonanza`} 
-                target="_blank" 
-                rel="noreferrer" 
-                className="jw-x-btn"
+              <a
+                href={`https://twitter.com/intent/tweet?text=I%20just%20hit%20the%20Jackpot%20on%20Pump%20Bonanza!%20%F0%9F%8E%B0%F0%9F%9A%80%0A%0AMy%20wallet:%20${jackpotWinner}%0A%0A%5BAttach%20Screenshot%20of%20this%20Window%20Here%5D%0A@PumpBonanza`}
+                target="_blank" rel="noreferrer" className="jw-x-btn"
               >
                 UPLOAD SCREENSHOT TO 𝕏
               </a>
-              <button className="jw-close-btn" onClick={() => setShowJackpotModal(false)}>
-                CLOSE
-              </button>
+              <button className="jw-close-btn" onClick={() => setShowJackpotModal(false)}>CLOSE</button>
             </div>
           </div>
         </div>
       )}
+
+      {/* 🎮 Demo Jackpot Modal */}
+      {showJackpotModal && demoMode && (
+        <div className="jackpot-modal-overlay">
+          <div className="jackpot-modal-content demo-jackpot">
+            <h1 className="jw-title">🎉 DEMO JACKPOT! 🎉</h1>
+            <p className="jw-subtitle">You'd have won <strong style={{color:'#fbbf24'}}>10+ SOL</strong> for real!</p>
+            <p className="demo-jw-body">This was a demo spin — no real funds were wagered. Hold $PUMP1000 and connect your wallet to play for real and claim actual prizes.</p>
+            <div className="jw-action-row">
+              <a href="https://pump.fun" target="_blank" rel="noreferrer" className="jw-x-btn">
+                Buy $PUMP1000 Now 🚀
+              </a>
+              <button className="jw-close-btn" onClick={() => setShowJackpotModal(false)}>KEEP PLAYING</button>
+            </div>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }
