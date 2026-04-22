@@ -259,12 +259,9 @@ export default function App() {
             </a>
           </div>
 
-          <div className="landing-ca-box" onClick={() => {
-            navigator.clipboard.writeText('2mGYQAoizGfDgknXcLQBiipRvYZrhXW6hDEoJyo4pump');
-            alert('CA Copied to clipboard!');
-          }}>
+          <div className="landing-ca-box">
             <span className="ca-label">CONTRACT ADDRESS:</span>
-            <span className="ca-value">2mGYQAoizGfDgknXcLQBiipRvYZrhXW6hDEoJyo4pump</span>
+            <span className="ca-value ca-coming-soon">🔜 Coming Soon</span>
           </div>
 
           <div className="landing-instructions">
