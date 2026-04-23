@@ -7,7 +7,7 @@ import './App.css';
 const JACKPOT_ALREADY_CLAIMED = false;
 const CASINO_MUSIC_URL = 'https://archive.org/download/78_maple-leaf-rag_scott-joplin/Maple_Leaf_Rag_-_Scott_Joplin.mp3';
 const JACKPOT_WALLET = 'UPDATE_WITH_YOUR_JACKPOT_WALLET'; // ← replace with your prize wallet
-const COMMUNITY_WALLET = 'UPDATE_WITH_COMMUNITY_WALLET';   // ← replace with community fund wallet
+
 const RAGE_THRESHOLD = 50;
 const RAGE_BOOST_SPINS = 10;
 // ─────────────────────────────────────────────────────────────────────────────
@@ -37,7 +37,7 @@ const COL_STOP_DELAYS = [700, 950, 1200, 1450, 1700, 1950];
 // ─── Types ───────────────────────────────────────────────────────────────────
 type CellState = 'idle' | 'spinning' | 'landing' | 'winning';
 interface Cell { symbol: string; state: CellState; idleDelay: number; }
-interface SpinEvent { id: number; wallet: string; ts: number; }
+
 
 function makeGrid(): Cell[][] {
   return Array.from({ length: ROWS }, (_, r) =>
@@ -106,12 +106,7 @@ function generateCertificate(winner: string) {
   link.click();
 }
 
-const FAKE_WALLETS = [
-  '3x7f...9a2c','8kLm...5p2q','Hj9d...3Rw5','QpLx...7Ym1',
-  'mN4t...9cGs','vB8r...2Kp6','xW3s...1Fq8','yC6h...4Dt0',
-  'aE2j...6Mn3','bR7k...8Vz5','gP5n...0Xu7','dS5m...2Yw9',
-  'eK9p...4Zt3','fL3q...7Xw6','hM2r...1Vs8','iN6s...3Yr4',
-];
+
 
 // ─── App ─────────────────────────────────────────────────────────────────────
 export default function App() {
@@ -138,11 +133,8 @@ export default function App() {
   const [rageSpinsLeft, setRageSpinsLeft] = useState(0);
   // Daily free spin
   const [dailyFreeReady, setDailyFreeReady] = useState(false);
-  // Spin feed
-  const [spinFeed, setSpinFeed] = useState<SpinEvent[]>([]);
   // Live balances
   const [jackpotBalance, setJackpotBalance] = useState('10+');
-  const [communityBalance, setCommunityBalance] = useState('0.00');
 
   // Casino music
   useEffect(() => {
@@ -162,22 +154,7 @@ export default function App() {
     if (!last || Date.now() - parseInt(last) > 24 * 60 * 60 * 1000) setDailyFreeReady(true);
   }, []);
 
-  // Simulated spin feed
-  useEffect(() => {
-    let feedId = 0;
-    let timeout: ReturnType<typeof setTimeout>;
-    const scheduleNext = () => {
-      timeout = setTimeout(() => {
-        const wallet = FAKE_WALLETS[Math.floor(Math.random() * FAKE_WALLETS.length)];
-        setSpinFeed(prev => [{ id: feedId++, wallet, ts: Date.now() }, ...prev].slice(0, 20));
-        scheduleNext();
-      }, 2500 + Math.random() * 4500);
-    };
-    scheduleNext();
-    return () => clearTimeout(timeout);
-  }, []);
-
-  // Live Solana balance
+  // Live Solana balance (jackpot only)
   useEffect(() => {
     const fetchSOL = async (address: string, setter: (v: string) => void) => {
       if (address.startsWith('UPDATE')) return;
@@ -192,11 +169,7 @@ export default function App() {
       } catch { /* keep default */ }
     };
     fetchSOL(JACKPOT_WALLET, setJackpotBalance);
-    fetchSOL(COMMUNITY_WALLET, setCommunityBalance);
-    const iv = setInterval(() => {
-      fetchSOL(JACKPOT_WALLET, setJackpotBalance);
-      fetchSOL(COMMUNITY_WALLET, setCommunityBalance);
-    }, 30000);
+    const iv = setInterval(() => fetchSOL(JACKPOT_WALLET, setJackpotBalance), 30000);
     return () => clearInterval(iv);
   }, []);
 
@@ -223,7 +196,6 @@ export default function App() {
       const newGrid = isJackpot
         ? Array.from({ length: ROWS }, (_, r) => Array.from({ length: COLS }, (_, c) => ({ symbol: SYMBOLS[0], state: 'idle' as CellState, idleDelay: (r * COLS + c) * 0.18 })))
         : makeGrid();
-      setSpinFeed(prev => [{ id: Date.now(), wallet: 'Demo...mode', ts: Date.now() }, ...prev].slice(0, 20));
       setColSpinning(Array(COLS).fill(true));
       COL_STOP_DELAYS.forEach((stopAt, col) => {
         const t = setTimeout(() => {
@@ -291,10 +263,6 @@ export default function App() {
     }
 
     // Push to feed
-    const walletStr = publicKey
-      ? `${publicKey.toBase58().slice(0,4)}...${publicKey.toBase58().slice(-4)}`
-      : 'Free...spin';
-    setSpinFeed(prev => [{ id: Date.now(), wallet: walletStr, ts: Date.now() }, ...prev].slice(0, 20));
 
     const newGrid: Cell[][] = isJackpot
       ? Array.from({ length: ROWS }, (_, r) => Array.from({ length: COLS }, (_, c) => ({ symbol: SYMBOLS[0], state: 'idle' as CellState, idleDelay: (r * COLS + c) * 0.18 })))
@@ -351,7 +319,6 @@ export default function App() {
       michiIcon, icon67, chillHouseIcon, pnutIcon, tungtungIcon,
       fwogIcon, trollIcon, alonIcon, solanaIcon, michiIcon, icon67,
     ];
-    const savedWinner = localStorage.getItem('pump_bonanza_winner_address');
     const SHARE_TEXT = encodeURIComponent(
       "I just found the most degenerate casino on Solana 🎰\n\nPump Bonanza 1000 — 1 in 100,000 jackpot, free daily spins, rage mode.\n\npumpbonanza.fun"
     );
