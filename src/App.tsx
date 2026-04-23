@@ -353,7 +353,7 @@ export default function App() {
     ];
     const savedWinner = localStorage.getItem('pump_bonanza_winner_address');
     const SHARE_TEXT = encodeURIComponent(
-      "I just found the most degenerate casino on Solana \u{1F3B0}\n\nPump Bonanza 1000 — 1 in 100,000 jackpot, free daily spins, rage mode.\n\npumpbonanza.fun"
+      "I just found the most degenerate casino on Solana 🎰\n\nPump Bonanza 1000 — 1 in 100,000 jackpot, free daily spins, rage mode.\n\npumpbonanza.fun"
     );
 
     return (
@@ -415,8 +415,8 @@ export default function App() {
         {showTerms && (
           <div className="terms-overlay" onClick={() => setShowTerms(false)}>
             <div className="terms-modal" onClick={e => e.stopPropagation()}>
-              <button className="terms-close" onClick={() => setShowTerms(false)}>\u2715</button>
-              <h2 className="terms-title">\u{1F3B0} How Pump Bonanza Works &amp; Terms</h2>
+              <button className="terms-close" onClick={() => setShowTerms(false)}>✕</button>
+              <h2 className="terms-title">🎰 How Pump Bonanza Works &amp; Terms</h2>
               <div className="terms-body">
                 <section><h3>How the Game Works</h3><p>Pump Bonanza 1000 is a browser-based slot machine. Each spin generates a random outcome using JavaScript's <code>Math.random()</code> function. No spin outcome is predetermined or stored before you click.</p></section>
                 <section><h3>The Jackpot Mechanism</h3><p>Every spin has an independent <strong>1 in 100,000</strong> chance of hitting the jackpot. Each spin is completely independent — previous spins have zero effect on future outcomes.</p><p>Demo mode uses 1 in 500 for demonstration only.</p></section>
@@ -428,7 +428,7 @@ export default function App() {
                 <section><h3>Disclaimers</h3><ul><li>Entertainment product — not a regulated gambling service.</li><li>18+ only.</li><li>Free to play — no SOL or tokens required to spin.</li><li>SOL value may fluctuate.</li><li>Not available where prohibited by law.</li><li>Developer may modify or discontinue at any time.</li></ul></section>
                 <section><h3>Contact</h3><p><strong>@PumpBonanza</strong> on X</p></section>
               </div>
-              <button className="terms-accept" onClick={() => setShowTerms(false)}>Got it \u2014 Close</button>
+              <button className="terms-accept" onClick={() => setShowTerms(false)}>Got it — Close</button>
             </div>
           </div>
         )}
