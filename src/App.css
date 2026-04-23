@@ -1966,3 +1966,34 @@
   .lp-info-pill { font-size: 0.63rem; }
   .spin-feed-ticker { display: none; }
 }
+
+/* ══════════════════════════════════════
+   MINIMAL LANDING — FINAL
+   ══════════════════════════════════════ */
+
+/* tagblock: tagline + one-liner steps */
+.lp-tagblock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+.lp-steps-line {
+  font-size: clamp(0.6rem, 1.3vw, 0.75rem);
+  color: rgba(255,255,255,0.3);
+  margin: 0;
+  letter-spacing: 0.3px;
+}
+
+/* Combined footer line */
+.lp-footer-line {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.68rem;
+  color: rgba(255,255,255,0.3);
+  flex-shrink: 0;
+  flex-wrap: wrap;
+  justify-content: center;
+}

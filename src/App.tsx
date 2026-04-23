@@ -353,37 +353,33 @@ export default function App() {
     ];
     const savedWinner = localStorage.getItem('pump_bonanza_winner_address');
     const SHARE_TEXT = encodeURIComponent(
-      "I just found the most degenerate casino on Solana 🎰\n\nPump Bonanza 1000 — 1 in 100,000 jackpot, free daily spins, rage mode.\n\npumpbonanza.fun"
+      "I just found the most degenerate casino on Solana \u{1F3B0}\n\nPump Bonanza 1000 — 1 in 100,000 jackpot, free daily spins, rage mode.\n\npumpbonanza.fun"
     );
-    const communityDisplay = COMMUNITY_WALLET.startsWith('UPDATE')
-      ? 'Coming Soon'
-      : `${COMMUNITY_WALLET.slice(0,6)}...${COMMUNITY_WALLET.slice(-6)}`;
 
     return (
       <div className="lp-root">
         <div className="lp-icons-bg" aria-hidden>
           {floatIcons.map((src, i) => (
             <img key={i} src={src} className="lp-float-icon" alt=""
-              style={{ left: `${(i * 6.5) % 96}%`, animationDuration: `${9 + (i % 6) * 1.5}s`, animationDelay: `-${(i * 1.7) % 14}s`, width: `${48 + (i % 5) * 16}px`, animationName: i % 2 === 0 ? 'lp-drift-a' : 'lp-drift-b' }}
+              style={{ left: `${(i * 6.5) % 96}%`, animationDuration: `${9+(i%6)*1.5}s`, animationDelay: `-${(i*1.7)%14}s`, width: `${48+(i%5)*16}px`, animationName: i%2===0?"lp-drift-a":"lp-drift-b" }}
             />
           ))}
         </div>
         <div className="lp-orb lp-orb-a" aria-hidden />
         <div className="lp-orb lp-orb-b" aria-hidden />
-        <div className="lp-orb lp-orb-c" aria-hidden />
 
         <header className="lp-bar">
-          <span className="lp-bar-badge">🎰 Solana Casino</span>
-          <a href="https://x.com/PumpBonanza" target="_blank" rel="noreferrer" className="lp-bar-x">Follow @PumpBonanza&nbsp;↗</a>
+          <span className="lp-bar-badge">\u{1F3B0} Solana Casino</span>
+          <a href="https://x.com/PumpBonanza" target="_blank" rel="noreferrer" className="lp-bar-x">@PumpBonanza\u00a0\u2197</a>
         </header>
 
         <main className="lp-hero">
+
           <div className="lp-jackpot-badge">
             <span className="lp-jb-pulse" />
-            🏆&nbsp; MAIN JACKPOT: <strong>{jackpotBalance} SOL</strong> &nbsp;·&nbsp; 1 in 100,000
-          </div>
-          <div className="lp-daily-badge">
-            ⚡&nbsp; DAILY FREE SPIN: <strong>1 SOL</strong> &nbsp;·&nbsp; 1 winner every 24h &nbsp;·&nbsp; No wallet needed
+            \u{1F3C6}\u00a0 JACKPOT: <strong>{jackpotBalance} SOL</strong>
+            \u00a0\u00b7\u00a0 \u26a1 Daily: <strong>1 SOL</strong>
+            \u00a0\u00b7\u00a0 1 in 100,000
           </div>
 
           <div className="lp-logo-wrap">
@@ -391,66 +387,27 @@ export default function App() {
             <img src={mainLogo} className="lp-logo" alt="Pump Bonanza 1000" />
           </div>
 
-          <p className="lp-tagline">The most degenerate slot machine on Solana.</p>
-
-          <div className="lp-ca-row">
-            <span className="lp-ca-dot" /><span className="lp-ca-label">CA</span>
-            <span className="lp-ca-divider" /><span className="lp-ca-value">Coming Soon</span>
-          </div>
-
-          {/* Live spin feed */}
-          {spinFeed.length > 0 && (
-            <div className="spin-feed-ticker">
-              <div className="spin-feed-inner">
-                {[...spinFeed, ...spinFeed].map((ev, i) => (
-                  <span key={`${ev.id}-${i}`} className="spin-feed-item">
-                    🎰&nbsp;<strong>{ev.wallet}</strong>&nbsp;just spun
-                  </span>
-                ))}
-              </div>
-            </div>
-          )}
-
-          <div className="lp-steps">
-            {[
-              { n:'01', t:'Connect Wallet', s:'Any Solana wallet' },
-              { n:'02', t:'Spin the Reels', s:'Free to play' },
-              { n:'03', t:'Hit Jackpot', s:'1 in 100,000 chance' },
-              { n:'04', t:'Claim SOL', s:'Instant verification' },
-            ].map((step, i) => (
-              <div key={i} className="lp-step">
-                <div className="lp-step-n">{step.n}</div>
-                <div className="lp-step-body"><strong>{step.t}</strong><span>{step.s}</span></div>
-              </div>
-            ))}
-          </div>
-
-          {/* Compact info row: winner + community pool */}
-          <div className="lp-info-row">
-            <div className="lp-info-pill">
-              {savedWinner ? '👑' : '🎯'}&nbsp;
-              <span>{savedWinner ? `${savedWinner.slice(0,6)}...${savedWinner.slice(-4)} won the jackpot` : 'First winner TBD — could be you'}</span>
-            </div>
-            <div className="lp-info-pill">
-              💎&nbsp;<span>Community pool: <strong>{communityBalance} SOL</strong> · grows with us</span>
-            </div>
+          <div className="lp-tagblock">
+            <p className="lp-tagline">The most degenerate slot machine on Solana.</p>
+            <p className="lp-steps-line">Connect wallet \u2192 Spin \u2192 Win {jackpotBalance} SOL \u00b7 Free daily spin \u00b7 Rage mode</p>
           </div>
 
           <button className="lp-cta" onClick={() => { setDemoMode(false); setHasEntered(true); }} id="enter-casino-btn">
-            <span className="lp-cta-shine" />🎰&nbsp; ENTER CASINO
-          </button>
-          <button className="lp-demo-btn" onClick={() => { setDemoMode(true); setDemoCredits(1000); setHasEntered(true); }} id="try-demo-btn">
-            🎮&nbsp; Try Demo — No Wallet Needed
+            <span className="lp-cta-shine" />\u{1F3B0}\u00a0 ENTER CASINO
           </button>
 
-          <div className="lp-footer-row">
-            <a href={`https://twitter.com/intent/tweet?text=${SHARE_TEXT}`} target="_blank" rel="noreferrer" className="lp-share-btn">
-              𝕏&nbsp; Share
-            </a>
-            <span className="lp-footer-dot">·</span>
+          <button className="lp-demo-btn" onClick={() => { setDemoMode(true); setDemoCredits(1000); setHasEntered(true); }} id="try-demo-btn">
+            \u{1F3AE}\u00a0 Try Demo \u2014 No Wallet Needed
+          </button>
+
+          <div className="lp-footer-line">
+            <a href={`https://twitter.com/intent/tweet?text=${SHARE_TEXT}`} target="_blank" rel="noreferrer" className="lp-share-btn">\u{1D54F} Share</a>
+            <span>\u00b7</span>
             <button className="lp-terms-link" onClick={() => setShowTerms(true)}>How it works &amp; T&amp;Cs</button>
+            <span>\u00b7</span>
+            <span>18+ \u00b7 Play responsibly</span>
           </div>
-          <p className="lp-disclaimer">Connect any Solana wallet · 18+ · Play responsibly</p>
+
         </main>
 
         <div className="lp-candy-bar" />
@@ -458,20 +415,20 @@ export default function App() {
         {showTerms && (
           <div className="terms-overlay" onClick={() => setShowTerms(false)}>
             <div className="terms-modal" onClick={e => e.stopPropagation()}>
-              <button className="terms-close" onClick={() => setShowTerms(false)}>✕</button>
-              <h2 className="terms-title">🎰 How Pump Bonanza Works &amp; Terms</h2>
+              <button className="terms-close" onClick={() => setShowTerms(false)}>\u2715</button>
+              <h2 className="terms-title">\u{1F3B0} How Pump Bonanza Works &amp; Terms</h2>
               <div className="terms-body">
                 <section><h3>How the Game Works</h3><p>Pump Bonanza 1000 is a browser-based slot machine. Each spin generates a random outcome using JavaScript's <code>Math.random()</code> function. No spin outcome is predetermined or stored before you click.</p></section>
-                <section><h3>The Jackpot Mechanism</h3><p>Every spin has an independent <strong>1 in 100,000</strong> chance of hitting the jackpot. Each spin is completely independent — previous spins have zero effect on future outcomes.</p><p>Demo mode uses 1 in 500 for demonstration only. Demo wins carry no monetary value.</p></section>
-                <section><h3>Rage Mode &amp; Daily Free Spin</h3><p>After <strong>50 consecutive spins</strong> without a jackpot, Rage Mode activates — your odds double to 1 in 50,000 for the next 10 spins.</p><p>Every 24 hours you receive one <strong>Daily Free Spin</strong> with doubled odds. No wallet needed.</p></section>
+                <section><h3>The Jackpot Mechanism</h3><p>Every spin has an independent <strong>1 in 100,000</strong> chance of hitting the jackpot. Each spin is completely independent — previous spins have zero effect on future outcomes.</p><p>Demo mode uses 1 in 500 for demonstration only.</p></section>
+                <section><h3>Rage Mode &amp; Daily Free Spin</h3><p>After <strong>50 consecutive spins</strong> without a jackpot, Rage Mode activates — your odds double to 1 in 50,000 for the next 10 spins. Every 24 hours you get one <strong>Daily Free Spin</strong> with 2x odds and a 1 SOL daily jackpot. No wallet needed.</p></section>
                 <section><h3>Wallet Connection</h3><p>We use the Solana Wallet Adapter. We only read your <strong>public key</strong> — we never request signing authority or access to your funds.</p></section>
-                <section><h3>Jackpot Prize &amp; Payout</h3><p>Prize is <strong>10+ SOL</strong>. Winners must: (1) Screenshot the jackpot screen, (2) Post publicly tagging <strong>@PumpBonanza</strong>, (3) Developer verifies on-chain and pays within 24 hours.</p></section>
-                <section><h3>Jackpot Growth &amp; Updates</h3><p>Prize starts at 10+ SOL and grows as the project expands. All updates announced via <strong>@PumpBonanza</strong> before taking effect.</p></section>
+                <section><h3>Jackpot Prize &amp; Payout</h3><p>Main jackpot: <strong>{jackpotBalance}+ SOL</strong>. Daily jackpot: <strong>1 SOL</strong>. Winners post publicly on X tagging <strong>@PumpBonanza</strong>. Dev verifies on-chain and pays within 24 hours.</p></section>
+                <section><h3>Jackpot Growth &amp; Updates</h3><p>Prize starts at 10+ SOL and grows as the community expands. The bigger the player base, the bigger the prizes. Updates announced via <strong>@PumpBonanza</strong> before taking effect.</p></section>
                 <section><h3>Fairness &amp; Transparency</h3><p>RNG runs entirely in your browser. Every spin is independent. Jackpot odds and mechanics will never change without public announcement.</p></section>
-                <section><h3>Disclaimers</h3><ul><li>Entertainment product — not a regulated gambling service.</li><li>18+ only.</li><li>Free to play — no SOL or tokens required to spin.</li><li>SOL prize value may fluctuate due to crypto volatility.</li><li>Not available where prohibited by law.</li><li>Developer may modify or discontinue at any time.</li></ul></section>
+                <section><h3>Disclaimers</h3><ul><li>Entertainment product — not a regulated gambling service.</li><li>18+ only.</li><li>Free to play — no SOL or tokens required to spin.</li><li>SOL value may fluctuate.</li><li>Not available where prohibited by law.</li><li>Developer may modify or discontinue at any time.</li></ul></section>
                 <section><h3>Contact</h3><p><strong>@PumpBonanza</strong> on X</p></section>
               </div>
-              <button className="terms-accept" onClick={() => setShowTerms(false)}>Got it — Close</button>
+              <button className="terms-accept" onClick={() => setShowTerms(false)}>Got it \u2014 Close</button>
             </div>
           </div>
         )}
