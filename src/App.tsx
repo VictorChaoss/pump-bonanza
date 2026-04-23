@@ -351,7 +351,7 @@ export default function App() {
 
           <div className="lp-logo-wrap">
             <div className="lp-logo-halo" />
-            <img src={mainLogo} className="lp-logo" alt="Pump Bonanza 1000" style={{ height:'clamp(60px,13dvh,160px)', width:'auto', maxWidth:'88vw' }} />
+            <img src={mainLogo} className="lp-logo" alt="Pump Bonanza 1000" style={{ height:'clamp(140px,24dvh,320px)', width:'auto', maxWidth:'88vw' }} />
           </div>
 
           <div className="lp-tagblock">
