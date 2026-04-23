@@ -357,7 +357,7 @@ export default function App() {
     );
 
     return (
-      <div className="lp-root">
+      <div className="lp-root" style={{ position:'fixed', inset:0, display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', overflow:'hidden', background:'#060410' }}>
         <div className="lp-icons-bg" aria-hidden>
           {floatIcons.map((src, i) => (
             <img key={i} src={src} className="lp-float-icon" alt=""
@@ -368,44 +368,44 @@ export default function App() {
         <div className="lp-orb lp-orb-a" aria-hidden />
         <div className="lp-orb lp-orb-b" aria-hidden />
 
-        <header className="lp-bar">
-          <span className="lp-bar-badge">\u{1F3B0} Solana Casino</span>
-          <a href="https://x.com/PumpBonanza" target="_blank" rel="noreferrer" className="lp-bar-x">@PumpBonanza\u00a0\u2197</a>
+        <header className="lp-bar" style={{ position:'absolute', top:0, left:0, right:0, height:'40px', display:'flex', alignItems:'center', justifyContent:'space-between', padding:'0 20px', zIndex:10, boxSizing:'border-box' }}>
+          <span className="lp-bar-badge">🎰 Solana Casino</span>
+          <a href="https://x.com/PumpBonanza" target="_blank" rel="noreferrer" className="lp-bar-x">@PumpBonanza&nbsp;↗</a>
         </header>
 
-        <main className="lp-hero">
+        <main className="lp-hero" style={{ position:'relative', zIndex:10, display:'flex', flexDirection:'column', alignItems:'center', textAlign:'center', width:'100%', maxWidth:'680px', height:'calc(100dvh - 40px)', marginTop:'40px', justifyContent:'space-evenly', overflow:'hidden', boxSizing:'border-box', padding:'0 16px' }}>
 
           <div className="lp-jackpot-badge">
             <span className="lp-jb-pulse" />
-            \u{1F3C6}\u00a0 JACKPOT: <strong>{jackpotBalance} SOL</strong>
-            \u00a0\u00b7\u00a0 \u26a1 Daily: <strong>1 SOL</strong>
-            \u00a0\u00b7\u00a0 1 in 100,000
+            🏆&nbsp; JACKPOT: <strong>{jackpotBalance} SOL</strong>
+            &nbsp;·&nbsp; ⚡ Daily: <strong>1 SOL</strong>
+            &nbsp;·&nbsp; 1 in 100,000
           </div>
 
           <div className="lp-logo-wrap">
             <div className="lp-logo-halo" />
-            <img src={mainLogo} className="lp-logo" alt="Pump Bonanza 1000" />
+            <img src={mainLogo} className="lp-logo" alt="Pump Bonanza 1000" style={{ height:'clamp(60px,13dvh,160px)', width:'auto', maxWidth:'88vw' }} />
           </div>
 
           <div className="lp-tagblock">
             <p className="lp-tagline">The most degenerate slot machine on Solana.</p>
-            <p className="lp-steps-line">Connect wallet \u2192 Spin \u2192 Win {jackpotBalance} SOL \u00b7 Free daily spin \u00b7 Rage mode</p>
+            <p className="lp-steps-line">Connect wallet → Spin → Win {jackpotBalance} SOL · Free daily spin · Rage mode</p>
           </div>
 
           <button className="lp-cta" onClick={() => { setDemoMode(false); setHasEntered(true); }} id="enter-casino-btn">
-            <span className="lp-cta-shine" />\u{1F3B0}\u00a0 ENTER CASINO
+            <span className="lp-cta-shine" />🎰&nbsp; ENTER CASINO
           </button>
 
           <button className="lp-demo-btn" onClick={() => { setDemoMode(true); setDemoCredits(1000); setHasEntered(true); }} id="try-demo-btn">
-            \u{1F3AE}\u00a0 Try Demo \u2014 No Wallet Needed
+            🎮&nbsp; Try Demo — No Wallet Needed
           </button>
 
           <div className="lp-footer-line">
-            <a href={`https://twitter.com/intent/tweet?text=${SHARE_TEXT}`} target="_blank" rel="noreferrer" className="lp-share-btn">\u{1D54F} Share</a>
-            <span>\u00b7</span>
+            <a href={`https://twitter.com/intent/tweet?text=${SHARE_TEXT}`} target="_blank" rel="noreferrer" className="lp-share-btn">𝕏 Share</a>
+            <span>·</span>
             <button className="lp-terms-link" onClick={() => setShowTerms(true)}>How it works &amp; T&amp;Cs</button>
-            <span>\u00b7</span>
-            <span>18+ \u00b7 Play responsibly</span>
+            <span>·</span>
+            <span>18+ · Play responsibly</span>
           </div>
 
         </main>
