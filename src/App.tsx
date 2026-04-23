@@ -7,6 +7,7 @@ import './App.css';
 const JACKPOT_ALREADY_CLAIMED = false;
 const CASINO_MUSIC_URL = 'https://archive.org/download/78_maple-leaf-rag_scott-joplin/Maple_Leaf_Rag_-_Scott_Joplin.mp3';
 const JACKPOT_WALLET = 'UPDATE_WITH_YOUR_JACKPOT_WALLET'; // ← replace with your prize wallet
+const CA_ADDRESS: string = ''; // ← paste CA here when live, e.g. 'AbC1...xyz9'
 
 const RAGE_THRESHOLD = 50;
 const RAGE_BOOST_SPINS = 10;
@@ -135,6 +136,7 @@ export default function App() {
   const [dailyFreeReady, setDailyFreeReady] = useState(false);
   // Live balances
   const [jackpotBalance, setJackpotBalance] = useState('10+');
+  const [caCopied, setCaCopied] = useState(false);
 
   // Casino music
   useEffect(() => {
@@ -359,10 +361,26 @@ export default function App() {
             <p className="lp-steps-line">Connect wallet → Spin → Win {jackpotBalance} SOL · Free daily spin · Rage mode</p>
           </div>
 
-          <div className="lp-ca-row">
+          <div
+            className={`lp-ca-row${CA_ADDRESS ? ' lp-ca-clickable' : ''}`}
+            onClick={() => {
+              if (!CA_ADDRESS) return;
+              navigator.clipboard.writeText(CA_ADDRESS).then(() => {
+                setCaCopied(true);
+                setTimeout(() => setCaCopied(false), 1500);
+              });
+            }}
+          >
             <span className="lp-ca-dot" />
             <span className="lp-ca-label">CA:</span>
-            <span className="lp-ca-coming">Coming Soon</span>
+            {CA_ADDRESS ? (
+              <>
+                <span className="lp-ca-addr">{CA_ADDRESS.slice(0,4)}...{CA_ADDRESS.slice(-4)}</span>
+                <span className="lp-ca-copy-icon">{caCopied ? '✓' : '⎘'}</span>
+              </>
+            ) : (
+              <span className="lp-ca-coming">Coming Soon</span>
+            )}
           </div>
 
           <button className="lp-cta" onClick={() => { setDemoMode(false); setHasEntered(true); }} id="enter-casino-btn">

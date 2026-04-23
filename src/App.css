@@ -2066,3 +2066,25 @@
   font-size: 0.8rem;
   letter-spacing: 0.02em;
 }
+
+/* ── CA copy states ── */
+.lp-ca-clickable {
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+.lp-ca-clickable:hover {
+  background: rgba(168,85,247,0.15);
+  border-color: rgba(168,85,247,0.4);
+}
+.lp-ca-addr {
+  color: rgba(255,255,255,0.9);
+  font-weight: 600;
+  font-size: 0.78rem;
+  font-family: monospace;
+  letter-spacing: 0.03em;
+}
+.lp-ca-copy-icon {
+  color: #a855f7;
+  font-size: 0.85rem;
+  margin-left: 2px;
+}
