@@ -1933,3 +1933,82 @@
   letter-spacing: 0.3px;
 }
 .lp-daily-badge strong { color: #fbbf24; }
+
+/* ══════════════════════════════════════
+   VIEWPORT LOCK — landing page fit
+   ══════════════════════════════════════ */
+
+/* Hero scrolls internally, root stays locked */
+.lp-hero {
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  max-height: calc(100dvh - 52px);
+  padding: 4px 20px 12px;
+}
+.lp-hero::-webkit-scrollbar { display: none; }
+
+/* Shrink logo */
+.lp-logo      { max-width: 280px !important; }
+.lp-logo-halo { width: 300px !important; height: 160px !important; }
+.lp-logo-wrap { margin-bottom: 0 !important; }
+
+/* Tighten all spacings */
+.lp-jackpot-badge { margin-bottom: 5px !important; padding: 5px 14px !important; font-size: 0.72rem !important; }
+.lp-daily-badge   { margin-top: 4px !important; margin-bottom: 6px !important; font-size: 0.68rem !important; }
+.lp-tagline       { margin: 3px 0 5px !important; font-size: 0.82rem !important; }
+.lp-ca-row        { margin-bottom: 8px !important; padding: 5px 14px !important; }
+.spin-feed-ticker { margin: 4px 0 5px !important; }
+.lp-steps         { margin-bottom: 8px !important; }
+.lp-step          { padding: 10px 8px !important; }
+.lp-step-body strong { font-size: 0.75rem !important; }
+.lp-step-body span   { font-size: 0.65rem !important; }
+.lp-cta           { padding: 14px 0 !important; margin-bottom: 8px !important; font-size: 0.95rem !important; }
+.lp-demo-btn      { padding: 10px 0 !important; font-size: 0.82rem !important; }
+.lp-footer-row    { margin: 5px 0 2px !important; }
+.lp-disclaimer    { font-size: 0.65rem !important; margin: 0 !important; }
+.lp-bar           { padding: 12px 24px !important; }
+
+/* Compact info pills row */
+.lp-info-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: center;
+  width: 100%;
+  max-width: 480px;
+  margin: 0 0 8px;
+}
+.lp-info-pill {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.68rem;
+  color: rgba(255,255,255,0.45);
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 20px;
+  padding: 5px 12px;
+  white-space: nowrap;
+}
+.lp-info-pill strong { color: rgba(255,255,255,0.75); }
+
+/* ── Mobile overrides ── */
+@media (max-width: 600px) {
+  .lp-hero       { padding: 2px 14px 10px; }
+  .lp-logo       { max-width: 200px !important; }
+  .lp-logo-halo  { width: 220px !important; height: 120px !important; }
+  .lp-jackpot-badge { font-size: 0.65rem !important; padding: 4px 12px !important; }
+  .lp-daily-badge   { font-size: 0.62rem !important; }
+  .lp-tagline    { font-size: 0.75rem !important; }
+  .lp-steps      { flex-direction: column; gap: 0; margin-bottom: 6px !important; }
+  .lp-step       { padding: 8px 10px !important; border-radius: 0 !important; }
+  .lp-step:first-child { border-radius: 10px 10px 0 0 !important; }
+  .lp-step:last-child  { border-radius: 0 0 10px 10px !important; }
+  .lp-step:not(:last-child) { border-right: 1px solid rgba(255,255,255,0.07); border-bottom: none; }
+  .lp-cta        { padding: 12px 0 !important; font-size: 0.88rem !important; }
+  .lp-demo-btn   { padding: 9px 0 !important; font-size: 0.78rem !important; }
+  .lp-info-row   { flex-direction: column; align-items: center; }
+  .lp-info-pill  { font-size: 0.63rem !important; }
+  .lp-bar        { padding: 10px 16px !important; }
+}

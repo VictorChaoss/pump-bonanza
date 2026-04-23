@@ -411,12 +411,6 @@ export default function App() {
             </div>
           )}
 
-          <div className="lp-icon-strip" aria-hidden>
-            {[alonIcon, fwogIcon, trollIcon, solanaIcon, pumpFunIcon, michiIcon, icon67, chillHouseIcon, pnutIcon, tungtungIcon].map((src, i) => (
-              <img key={i} src={src} className="lp-strip-icon" alt="" style={{ animationDelay: `${i * -0.4}s` }} />
-            ))}
-          </div>
-
           <div className="lp-steps">
             {[
               { n:'01', t:'Connect Wallet', s:'Any Solana wallet' },
@@ -431,37 +425,14 @@ export default function App() {
             ))}
           </div>
 
-          {/* Hall of Legends */}
-          <div className="winners-hall">
-            <div className="winners-hall-title">🏆 Hall of Legends</div>
-            {savedWinner ? (
-              <div className="winner-entry">
-                <span className="winner-crown">👑</span>
-                <span className="winner-addr">{savedWinner.slice(0,8)}...{savedWinner.slice(-8)}</span>
-                <span className="winner-label">Jackpot Winner</span>
-              </div>
-            ) : (
-              <div className="winner-entry empty">
-                <span className="winner-crown">🎯</span>
-                <span className="winner-addr">First winner TBD</span>
-                <span className="winner-label">Could be you</span>
-              </div>
-            )}
-          </div>
-
-          {/* Community pool */}
-          <div className="community-pool">
-            <div className="cp-title">💎 Community Jackpot Pool</div>
-            <div className="cp-body">
-              <div className="cp-row">
-                <span className="cp-label">Pool balance</span>
-                <span className="cp-value">{communityBalance} SOL</span>
-              </div>
-              <div className="cp-row">
-                <span className="cp-label">Address</span>
-                <span className="cp-value cp-addr">{communityDisplay}</span>
-              </div>
-              <p className="cp-desc">Send SOL to grow the jackpot for everyone. The bigger this community gets, the bigger the prizes get. Anyone can contribute — no limit.</p>
+          {/* Compact info row: winner + community pool */}
+          <div className="lp-info-row">
+            <div className="lp-info-pill">
+              {savedWinner ? '👑' : '🎯'}&nbsp;
+              <span>{savedWinner ? `${savedWinner.slice(0,6)}...${savedWinner.slice(-4)} won the jackpot` : 'First winner TBD — could be you'}</span>
+            </div>
+            <div className="lp-info-pill">
+              💎&nbsp;<span>Community pool: <strong>{communityBalance} SOL</strong> · grows with us</span>
             </div>
           </div>
 
