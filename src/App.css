@@ -2032,3 +2032,37 @@
   flex-wrap: wrap;
   justify-content: center;
 }
+
+/* ── CA Placeholder ── */
+.lp-ca-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 999px;
+  padding: 6px 18px;
+  font-size: 0.8rem;
+  flex-shrink: 0;
+}
+.lp-ca-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #a855f7;
+  box-shadow: 0 0 6px #a855f7;
+  animation: lp-pulse 1.8s ease-in-out infinite;
+  flex-shrink: 0;
+}
+.lp-ca-label {
+  color: rgba(255,255,255,0.45);
+  font-weight: 600;
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+}
+.lp-ca-coming {
+  color: #a855f7;
+  font-weight: 700;
+  font-size: 0.8rem;
+  letter-spacing: 0.02em;
+}

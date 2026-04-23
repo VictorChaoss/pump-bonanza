@@ -359,6 +359,12 @@ export default function App() {
             <p className="lp-steps-line">Connect wallet → Spin → Win {jackpotBalance} SOL · Free daily spin · Rage mode</p>
           </div>
 
+          <div className="lp-ca-row">
+            <span className="lp-ca-dot" />
+            <span className="lp-ca-label">CA:</span>
+            <span className="lp-ca-coming">Coming Soon</span>
+          </div>
+
           <button className="lp-cta" onClick={() => { setDemoMode(false); setHasEntered(true); }} id="enter-casino-btn">
             <span className="lp-cta-shine" />🎰&nbsp; ENTER CASINO
           </button>
