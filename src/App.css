@@ -1005,6 +1005,44 @@
 
 
 
+/* ---- MOBILE PERFORMANCE — kill expensive GPU ops ---- */
+@media (max-width: 768px) {
+
+  /* #1 KILLER: backdrop-filter on the grid — off on mobile */
+  .slot-grid {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    /* flatten heavy multi-layer shadow too */
+    box-shadow: 0 4px 16px rgba(0,0,0,0.4) !important;
+  }
+
+  /* #2: Idle symbol bobbing = 30 simultaneous animations — stop them */
+  .symbol.idle { animation: none !important; }
+
+  /* #3: Kill win-flash blur */
+  .win-flash {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  /* #4: Promote spinning columns to GPU layer */
+  .slot-cell.spinning {
+    will-change: transform;
+    transform: translateZ(0);
+  }
+
+  /* #5: Kill floating background icons on landing (pure GPU waste) */
+  .lp-icons-bg { display: none !important; }
+
+  /* #6: Kill orb blur animations on landing */
+  .lp-orb { display: none !important; }
+
+  /* #7: Kill logo halo + pulse animations */
+  .lp-logo-halo { display: none !important; }
+  .lp-jb-pulse { animation: none !important; }
+  .lp-cta-shine { display: none !important; }
+}
+
 /* ═══════════════════════════════════════════════
    NEXT-LEVEL LANDING PAGE
    ═══════════════════════════════════════════════ */
