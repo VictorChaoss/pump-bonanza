@@ -1127,6 +1127,8 @@
   position: absolute;
   bottom: -120px;
   filter: saturate(0.7) brightness(0.9);
+  animation-iteration-count: infinite;
+  animation-fill-mode: none;
 }
 
 @keyframes lp-drift-a {
