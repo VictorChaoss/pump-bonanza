@@ -865,148 +865,145 @@
   100% { transform: translateY(0px); }
 }
 
-/* ---- MOBILE OPTIMIZATION ---- */
+/* ---- MOBILE GAME LAYOUT ---- */
 @media (max-width: 768px) {
+
+  /* Root: lock to full screen */
   .sb-root {
+    height: 100dvh;
     overflow: hidden;
-    height: 100vh;
-    min-height: 100vh;
-  }
-
-  /* Slot Board Scaling */
-  .slot-grid {
-    gap: 2px;
-    padding: 6px;
-  }
-  .slot-cell {
-    width: 12vw;
-    height: 12vw;
-    max-width: 42px;
-    max-height: 42px;
-  }
-  .symbol {
-    width: 90%;
-    height: 90%;
-  }
-  .board-wrapper {
-    margin-top: 5px;
-    margin-bottom: 0px;
-  }
-
-  /* Core Layout Adjustments */
-  .sb-main {
-    flex-direction: column;
-    align-items: center;
-    gap: 5px;
-    padding-top: 10px;
-    margin-bottom: 0;
-  }
-  .left-panel {
-    position: relative;
-    top: auto;
-    left: auto;
-    transform: none;
-    flex-direction: row;
-    width: 100%;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 15px 5px 15px;
-    background: transparent;
-    box-shadow: none;
-    border: none;
-  }
-  .brand-logo {
-    width: 100px;
-  }
-  .wallet-wrap {
-    transform: scale(0.75);
-    transform-origin: right center;
-  }
-
-  /* Bottom Bar Compression */
-  .bottom-bar {
-    flex-direction: column;
-    height: auto;
-    padding: 5px 10px;
-    gap: 10px;
-    justify-content: center;
-    position: absolute;
-    bottom: 5px;
-    left: 0;
-    right: 0;
-  }
-  .bb-center {
-    display: none; /* Hide turbo text on mobile to save space */
-  }
-  .bb-left, .bb-right {
-    width: 100%;
-    justify-content: center;
-  }
-  .spin-container {
-    margin-top: 0; /* Reset desktop pull-up */
-  }
-  .spin-button {
-    width: 70px;
-    height: 70px;
-  }
-  
-  /* Landing Page Resize - LOCKED TO VIEWPORT */
-  .landing-page-container {
-    overflow: hidden;
-  }
-  .landing-content {
-    width: 95%;
-    padding: 10px 15px;
-    max-height: 98vh;
     display: flex;
     flex-direction: column;
-    justify-content: center;
   }
-  .landing-hero-logo {
-    width: clamp(100px, 30vw, 160px);
-    margin: 0 auto 5px auto;
+
+  /* Daily banner: compact */
+  .daily-banner {
+    padding: 4px 12px;
+    font-size: 0.7rem;
+    flex-shrink: 0;
   }
-  .landing-socials {
-    margin-bottom: 5px;
-  }
-  .social-link {
-    font-size: 0.65rem;
-    padding: 6px 12px;
-  }
-  .landing-instructions h2 {
-    font-size: 0.85rem;
-    margin-bottom: 4px;
-  }
-  .landing-instructions ul {
-    gap: 4px;
-  }
-  .landing-instructions li {
-    font-size: 0.65rem;
-    padding: 6px 10px;
-    margin-bottom: 0;
-    line-height: 1.2;
-  }
-  .landing-ca-box {
+
+  /* Main area: flex:1, column layout */
+  .sb-main {
+    flex: 1;
     flex-direction: column;
-    text-align: center;
-    word-break: break-all;
-    gap: 2px;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    padding: 4px 8px;
+    min-height: 0;
+    position: relative;
+  }
+
+  /* Hide the left panel on mobile - no room */
+  .left-panel {
+    display: none;
+  }
+
+  /* Board fills the available space */
+  .board-wrapper {
+    flex: 1;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 0;
+    padding: 0;
+    margin: 0;
+  }
+
+  /* Grid: constrain height so spin button fits */
+  .slot-grid {
+    width: 98%;
+    max-width: 420px;
+    max-height: calc(100dvh - 160px);
+    aspect-ratio: 6 / 5;
+    gap: 1px;
     padding: 6px;
-    margin: 6px 0;
+    border-width: 4px;
+    box-shadow:
+      0 0 0 3px #F48FB1,
+      0 0 0 6px #CE93D8;
   }
-  .landing-enter-btn {
-    padding: 8px 0;
+
+  .slot-cell {
+    min-width: 0;
+    min-height: 0;
+  }
+
+  .symbol {
+    width: 88%;
+    height: 88%;
+    object-fit: contain;
+  }
+
+  /* Bottom bar: fixed height, always visible */
+  .bottom-bar {
+    position: relative;
+    bottom: auto;
+    left: auto;
+    right: auto;
+    flex-shrink: 0;
+    height: 64px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+    gap: 0;
+  }
+
+  .bb-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+  }
+
+  .free-spin-label {
+    font-size: 0.7rem;
+  }
+
+  .rage-meter-wrap {
+    width: 120px;
+  }
+
+  .rage-meter-label {
+    font-size: 0.55rem;
+  }
+
+  .bb-left {
+    width: auto;
+    gap: 8px;
+  }
+
+  .bb-right {
+    width: auto;
+  }
+
+  .spin-button {
+    width: 54px;
+    height: 54px;
+    font-size: 1.4rem;
+  }
+
+  .bottom-home-btn {
+    font-size: 0.65rem;
+    padding: 4px 8px;
+  }
+
+  .music-btn {
     font-size: 0.9rem;
-    margin-top: 2px;
   }
-  .jw-title {
-    font-size: 1.8rem;
-  }
-  .jw-address {
-    font-size: 0.9rem;
-    word-break: break-all;
+
+  /* Demo banner */
+  .demo-banner {
+    padding: 4px 10px;
+    font-size: 0.65rem;
+    flex-shrink: 0;
   }
 }
+
+
 
 /* ═══════════════════════════════════════════════
    NEXT-LEVEL LANDING PAGE
